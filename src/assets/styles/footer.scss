@@ -1,0 +1,9 @@
+@import 'base';
+
+footer {
+  background: $grey;
+  color: $tertiary;
+  height: 500px;
+  grid-column: 1 / 3;
+  padding: 5rem 3rem;
+}

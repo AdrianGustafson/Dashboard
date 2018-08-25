@@ -1,0 +1,175 @@
+/* COLORS */
+/*
+$primary: #79AEC8;
+$secondary: #FEFEFD;
+$tertiary: #EEF0EA;
+$quarternary: #417690;
+$warning: #F5DD5D;
+$danger: #B03D36;
+*/
+
+/* EARTH
+$primary: rgba(224, 224, 226, 1);
+$secondary: rgba(224, 203, 168, 1);
+$quarternary: rgba(119, 166, 182, 1);
+$tertiary: rgba(179, 106, 94, 1);
+$warning: rgba(229, 125, 94, 1);
+$danger: #B03D36;
+*/
+
+/* MODERN
+$quarternary: rgba(35, 120, 69, 1);
+$tertiary: rgba(141, 180, 162, 1);
+$secondary: rgba(213, 223, 229, 1);
+$primary: rgba(201, 177, 189, 1);
+/*$warning: rgba(245, 230, 209, 1);*/
+
+
+/* TEST
+$primary: #4BC6B9;
+$secondary: #73C1C6;
+$tertiary: #96C3CE;
+$quarternary: #A79AB2;*/
+
+/* TEST 2 */
+$primary: rgba(48, 126, 153, 1);
+$secondary: rgba(86, 155, 177, 1);
+$tertiary: rgba(253, 251, 249, 1);
+$quarternary: rgba(253, 213, 173, 1);
+$grey: #7D7D7C;
+$warning: #FFD586;
+$danger: #FA3E4C;
+
+/* FONTS */
+$main-font: 'Roboto', sans-serif;
+$heading-font: 'Oswald', sans-serif;
+$brand-font: 'Titillium Web', sans-serif;
+
+html {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+body {
+  color: $secondary;
+  background-color: $tertiary;
+  margin: 0%;
+  font-family: 100% $main-font;
+}
+
+h1, h2 {
+  font-family: $heading-font;
+  font-weight: 800;
+}
+
+h3, h4, h5 {
+  font-family: $main-font;
+  font-weight: bold;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background-color: inherit;
+
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-family: $main-font;
+  display: inline;
+}
+
+i .fas {
+  display: inline;
+
+  .spinner-lg {
+    align-items: center;
+    font-size: 2rem;
+  }
+}
+nav {
+  white-space: nowrap;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+
+  div {
+    display: grid;
+    align-content: start;
+  }
+}
+
+hr {
+  margin: 2rem 0;
+}
+.page {
+  color: $secondary;
+  width: 100%;
+  min-height: 800px;
+  padding: 1rem;
+
+  a, Link {
+    color: $secondary!important;
+    display: inline;
+  }
+}
+
+.tab-toggle {
+  margin-top: 10px;
+  padding-bottom: 10px;
+
+  ul {
+    height: 40px;
+    li {
+      margin-right: 10px;
+    }
+  }
+
+  a {
+    padding: 10px 10px;
+  }
+}
+
+.not-found {
+  grid-column: 2;
+  text-align: center;
+  min-height: 400px;
+  padding: 200px;
+}
+
+.dark {
+  background-color: $quarternary;
+}
+
+.light {
+  background-color: $primary;
+}
+
+.warning {
+  color: $warning
+}
+
+%danger {
+  color: $danger
+}
+.danger {
+  @extend %danger;
+}
+.error-messages {
+  @extend %danger;
+}
+
+.btn {
+  &-primary {
+    background-color: $primary !important;
+    border-color: $primary !important;
+  }
+  &-outline-primary {
+    color: $primary !important;
+    border-color: $primary !important;
+  }
+}

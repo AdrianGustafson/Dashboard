@@ -1,0 +1,57 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "A dashboard for travel facilities",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "webpack-dev-server --open"
+  },
+  "keywords": [
+    "dashboard",
+    "booking",
+    "staff",
+    "management",
+    "kitchen",
+    "management",
+    "travelling",
+    "services"
+  ],
+  "author": "Adrian Gustafson",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^1.0.0",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0",
+    "style-loader": "^0.21.0",
+    "superagent": "^3.8.3",
+    "superagent-promise": "^1.1.0",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-preset-react-hmre": "^1.1.1",
+    "node-sass": "^4.9.2",
+    "react-hot-loader": "^4.3.4",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6",
+    "sass-loader": "^7.1.0",
+    "svg-inline-loader": "^0.8.0",
+    "webpack-dev-middleware": "^3.1.3",
+    "webpack-dev-server": "^3.1.5",
+    "webpack-hot-middleware": "^2.22.3"
+  }
+}
