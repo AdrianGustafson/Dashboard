@@ -31,11 +31,17 @@ const Auth = {
     requests.post('/users/login', {'user': { email, password }}),
   register: (email, password) =>
     requests.post('/users/register', {'user': { email, password }}),
-  save: user =>
-    requests.put('/employee', {user: user})
+  saveStaff: user =>
+    requests.put('/staff', {user: user})
 }
+
+const Business = {
+    current: () =>
+        requests.get('/company'),
+} 
 
 export default {
   Auth,
+  Business,
   setToken: _token => { token = _token; }
 }

@@ -4,6 +4,7 @@ import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 
 import Booking from './Booking';
 import Header from './Header';
+import Friends from './Friends';
 import Footer from './Footer';
 import Login from './Login';
 import NotFound from './NotFound';
@@ -33,7 +34,9 @@ class App extends React.Component {
       agent.setToken(token)
     }
 
-    this.props.onLoad( token ? agent.Auth.current() : null, token )
+    this.props.onLoad( token ? Promise.all([agent.Auth.current(),
+                                        agent.Business.current()
+                                       ]) : null, token )
   }
 
   render() {
@@ -52,8 +55,9 @@ class App extends React.Component {
           <Sidebar currentUser={this.props.currentUser} />
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route exact path="/profile" component={Profile}/>
+            <PrivateRoute exact path="/profile" component={Profile}/>
             <PrivateRoute path="/booking" component={Booking} />
+            <PrivateRoute path="/friends" component={Friends} />
             <Route path="/login" component={Login} />
             <Route component={NotFound} />
           </Switch>

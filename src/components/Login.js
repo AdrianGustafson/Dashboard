@@ -3,7 +3,7 @@ import { Redirect, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import agent from '../agent';
 
-import ListErrors from './utils/ListErrors';
+import { ListErrors } from './utils/Forms';
 
 const mapStateToProps = state => ({
     email: state.auth.email,

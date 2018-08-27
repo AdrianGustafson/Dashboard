@@ -46,7 +46,15 @@ const ProfileView = props => {
 }
 
 class Profile extends React.Component {
+    componentWillMount() {
+        const token = window.localStorage.getItem('jwt');
+        if (token) {
+            agent.setToken(token)
+        }
 
+        this.props.onLoad( token ? agent.Auth.current() : null, token )
+    }
+    
   onChangeTabClick(e, tab) {
     e.preventDefault();
     this.props.onChangeTab(tab)

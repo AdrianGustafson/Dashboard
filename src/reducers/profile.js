@@ -20,7 +20,8 @@ export default function common(state = initialState, action) {
       return {
         ...state,
         inProgress: false,
-        errors: action.error ? action.payload.errors.profile : null
+        errors: action.error ? action.payload.errors.profile : null,
+        success: action.error ? false : true
       }
     }
     case 'ASYNC_START': {

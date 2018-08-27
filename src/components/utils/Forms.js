@@ -1,6 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+class ListErrors extends React.Component {
+  render() {
+    const { errors } = this.props;
+    if (errors) {
+      return (
+        <ul className="error-messages">
+          {
+            Object.keys(errors).map(key => {
+              return (
+                <li key={key}>
+                  {key}: {errors[key]}
+                </li>
+              );
+            })
+          }
+        </ul>
+      );
+    } else {
+      return null;
+    }
+  }
+}
+
+const Success = props => {
+    if (props.success) {
+        return (
+            <p className="success">Dina inställningar har sparats!</p>
+        ) 
+    }
+    return null;
+}
 
 const EmailInput = props => {
   return (
@@ -120,9 +151,11 @@ Form.propTypes = {
 export {
   EmailInput,
   Form,
+  ListErrors,
   NumberInput,
   PasswordInput,
   PhoneInput,
   SubmitButton,
+  Success,
   TextInput
 }

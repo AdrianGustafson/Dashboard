@@ -8,7 +8,7 @@ const initialState = {
   appName: "WeBooking",
   showSidebar: true,
   token: null,
-  //currentUser: dummyUser
+  appLoaded: false,
 }
 
 export default function common(state=initialState, action) {
@@ -18,15 +18,15 @@ export default function common(state=initialState, action) {
         ...state,
         token: action.token || null,
         appLoaded: true,
-        currentUser: action.payload ? action.payload.user : null,
-
+        currentUser: action.payload ? action.payload[0].user : null,
+        company: action.error ? null : action.payload[1].company
       }
     }
     case 'LOGIN': {
       return {
         ...state,
         token: action.error ? null : action.payload.user.token,
-        currentUser: action.error ? null : action.payload.user
+        currentUser: action.error ? null : action.payload.user,
       }
     }
     case 'LOGOUT': {
@@ -42,6 +42,12 @@ export default function common(state=initialState, action) {
         showSidebar: action.toggle
       }
     }
+      case 'PROFILE_SETTINGS_SAVED': {
+          return {
+              ...state,
+              currentUser: action.error ? state.currentUser : action.payload.user
+          }
+      }
     default:
       return state
   }

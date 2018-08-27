@@ -1,14 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ListErrors from '../utils/ListErrors';
+
 import {
-  Form,
-  TextInput,
-  PhoneInput,
-  EmailInput,
-  NumberInput,
-  PasswordInput,
-  SubmitButton } from '../utils/Forms';
+    Form,
+    TextInput,
+    PhoneInput,
+    EmailInput,
+    ListErrors,
+    NumberInput,
+    PasswordInput,
+    SubmitButton,
+    Success} from '../utils/Forms';
 
 import agent from '../../agent';
 
@@ -19,10 +21,10 @@ class SettingsForm extends React.Component {
       first_name: '',
       last_name: '',
       email: '',
-      phone_number: '',
-      id_number: '',
+      phone_number: null,
+      id_number: null,
       adress: '',
-      postal_code: '',
+      postal_code: null,
       city: '',
       password: '',
       confirm_password: '',
@@ -60,12 +62,12 @@ class SettingsForm extends React.Component {
         first_name: this.props.currentUser.first_name || '',
         last_name: this.props.currentUser.last_name || '',
         email: this.props.currentUser.email || '',
-        phone_number: this.props.currentUser.phone_number || '',
-        id_number: this.props.currentUser.id_number || '',
+        phone_number: this.props.currentUser.phone_number || null,
+        id_number: this.props.currentUser.id_number || null,
         adress: this.props.currentUser.adress || '',
-        postal_code: this.props.currentUser.postal_code || '',
+        postal_code: this.props.currentUser.postal_code || null,
         city: this.props.currentUser.city || '',
-        bank_account: this.props.currentUser.bank_account || '',
+        bank_account: this.props.currentUser.bank_account || null,
         username: this.props.currentUser.username
       })
     }
@@ -146,12 +148,13 @@ class SettingsForm extends React.Component {
 const mapStateToProps = state => ({
   currentUser: state.common.currentUser,
   tab: state.profile.tab,
-  errors: state.profile.errors
+  errors: state.profile.errors,
+    success: state.profile.success
 })
 
 const mapDispatchToProps = dispatch => ({
   onSubmitForm: user =>
-    dispatch({ type: 'PROFILE_SETTINGS_SAVED', payload: agent.Auth.save(user) })
+    dispatch({ type: 'PROFILE_SETTINGS_SAVED', payload: agent.Auth.saveStaff(user) })
 })
 
 class Settings extends React.Component {
@@ -166,7 +169,8 @@ class Settings extends React.Component {
         <h1>Personuppgifter</h1>
 
         <ListErrors errors={this.props.errors} />
-
+        <Success success={this.props.success} />
+        
         <SettingsForm
           currentUser={this.props.currentUser}
           onSubmitForm={this.props.onSubmitForm}

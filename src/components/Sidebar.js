@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { TOGGLE_SIDEBAR } from '../actions/common';
 
 const mapStateToProps = state => ({
-  showSidebar: state.common.showSidebar
+  showSidebar: state.common.showSidebar,
+  apps: state.common.company.apps
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -64,10 +65,13 @@ class Sidebar extends React.Component {
             <li><Link to="/profile" className="sidebar-item"><ion-icon name="person"></ion-icon> Min sida</Link></li>
             <li><Link to="/friends" className="sidebar-item"><i className="fas fa-user-friends"></i> Vänner</Link></li>
             <hr />
-            <li><Link to="/booking" className="sidebar-item"><ion-icon name="briefcase"></ion-icon> Bokning</Link></li>
-            <li><a href="#" className="sidebar-item"><ion-icon name="cafe"></ion-icon> Kök</a></li>
-            <li><a href="#" className="sidebar-item"><ion-icon name="people"></ion-icon> Gäster</a></li>
-            <li><a href="#" className="sidebar-item"><ion-icon name="cash"></ion-icon> Ekonomi</a></li>
+            {this.props.apps.map(app => (
+                <li>
+                    <Link to={app.url} className="sidebar-item">
+                        <i class={app.iconCss}></i> {app.appLabel}
+                    </Link>
+                </li>
+            ))}
           </ul>
       </nav>
     )
