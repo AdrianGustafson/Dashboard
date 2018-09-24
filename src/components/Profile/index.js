@@ -33,7 +33,7 @@ const SalaryView = props => {
   }
 }
 const ProfileView = props => {
-  if (props.tab === 'profile') {
+  if (props.tab === null) {
     return (
       <div>
         <h1>Your Profile</h1>
@@ -57,13 +57,17 @@ class Profile extends React.Component {
     
   onChangeTabClick(e, tab) {
     e.preventDefault();
-    this.props.onChangeTab(tab)
+    const { history } = this.props;
+    this.props.onChangeTab(tab);
+    tab === null ?
+        history.push("/profile") :
+        history.push(`/profile/${tab}`)
   }
 
   renderTabs(match, username) {
     return (
       <TabList>
-        <Tab onClick={(e) => this.onChangeTabClick(e, 'profile')}>
+        <Tab onClick={(e) => this.onChangeTabClick(e, null)}>
           <i className="fas fa-id-card" ></i> {username}
         </Tab>
         <Tab onClick={(e) => this.onChangeTabClick(e, 'salary')}>

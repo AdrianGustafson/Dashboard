@@ -2,17 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { TOGGLE_SIDEBAR } from '../actions/common';
+import agent from '../../agent';
+
+import { TOGGLE_SIDEBAR } from '../../actions/common';
 
 const mapStateToProps = state => ({
+  currentUser: state.common.currentUser,
   showSidebar: state.common.showSidebar,
-  apps: state.common.company.apps
+  apps: state.common.apps
 })
 
 const mapDispatchToProps = dispatch => ({
-  onToggleSidebarClick: toggle => {
-    dispatch({type: TOGGLE_SIDEBAR, toggle:!toggle})
-  }
+    onToggleSidebarClick: toggle => {
+        dispatch({type: TOGGLE_SIDEBAR, toggle:!toggle})
+    },
+    onLoad: payload => 
+        dispatch({ type: 'SIDEBAR_LOADED', payload })
 })
 
 
@@ -39,23 +44,29 @@ const ToggleSidebarButton = ({ toggle, togglefunc }) => {
 }
 
 class Sidebar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showSidebar: props.showSidebar
+    constructor(props) {
+        super(props);
+        this.state = {
+            showSidebar: props.showSidebar
+        }
     }
-  }
 
-  toggleSidebar(e) {
-    e.preventDefault();
-    this.setState((prevState, props) => ({
-      showSidebar: !prevState.showSidebar
-    }))
-    this.props.onToggleSidebarClick(this.state.showSidebar)
-  }
+    toggleSidebar(e) {
+        e.preventDefault();
+        this.setState((prevState, props) => ({
+            showSidebar: !prevState.showSidebar
+        }))
+        
+        this.props.onToggleSidebarClick(this.state.showSidebar)
+    }
 
   render() {
-    if (this.props.currentUser) {
+    const { apps } = this.props;
+
+    if (!this.props.currentUser) {
+        return null;
+    }
+      
     return (
       <nav
         className={this.props.showSidebar ? "sidebar sidebar-active" : "sidebar sidebar-hidden"}
@@ -65,20 +76,16 @@ class Sidebar extends React.Component {
             <li><Link to="/profile" className="sidebar-item"><ion-icon name="person"></ion-icon> Min sida</Link></li>
             <li><Link to="/friends" className="sidebar-item"><i className="fas fa-user-friends"></i> Vänner</Link></li>
             <hr />
-            {this.props.apps.map(app => (
-                <li>
+            {apps.map((app, key) => (
+                <li key={key}>
                     <Link to={app.url} className="sidebar-item">
-                        <i class={app.iconCss}></i> {app.appLabel}
+                        <i className={app.iconCss}></i> {app.appLabel}
                     </Link>
                 </li>
             ))}
           </ul>
       </nav>
     )
-  }
-  else {
-    return null;
-  }
   }
 }
 /*

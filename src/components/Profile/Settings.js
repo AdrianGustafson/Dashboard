@@ -17,12 +17,13 @@ import agent from '../../agent';
 class SettingsForm extends React.Component {
   constructor(props) {
     super(props);
+      
     this.state = {
-      first_name: '',
-      last_name: '',
-      email: '',
+      first_name: "",
+      last_name: "",
+      email: "",
       phone_number: null,
-      id_number: null,
+      personal_number: null,
       adress: '',
       postal_code: null,
       city: '',
@@ -49,21 +50,18 @@ class SettingsForm extends React.Component {
       if (!user.password  || !user.confirm_password) {
         delete user.password, user.confirm_password;
       }
-
-
       this.props.onSubmitForm(user);
     }
   }
 
   componentWillMount() {
-    console.log(this.props);
     if (this.props.currentUser) {
       Object.assign(this.state, {
         first_name: this.props.currentUser.first_name || '',
         last_name: this.props.currentUser.last_name || '',
         email: this.props.currentUser.email || '',
         phone_number: this.props.currentUser.phone_number || null,
-        id_number: this.props.currentUser.id_number || null,
+        personal_number: this.props.currentUser.personal_number || null,
         adress: this.props.currentUser.adress || '',
         postal_code: this.props.currentUser.postal_code || null,
         city: this.props.currentUser.city || '',
@@ -102,8 +100,8 @@ class SettingsForm extends React.Component {
 
             <NumberInput
               placeholder="Personnummer"
-              value={this.state.id_number}
-              onChange={this.onUpdateField('id_number')}
+              value={this.state.personal_number}
+              onChange={this.onUpdateField('personal_number')}
             />
 
             <TextInput
@@ -153,12 +151,18 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  onSubmitForm: user =>
-    dispatch({ type: 'PROFILE_SETTINGS_SAVED', payload: agent.Auth.saveStaff(user) })
+    onSubmitForm: user => 
+        dispatch({ type: 'PROFILE_SETTINGS_SAVED', payload: agent.Auth.saveStaff(user) }),
+    onUnLoad: () => 
+        dispatch({ type: 'SETTINGS_PAGE_UNLOADED' })
 })
 
 class Settings extends React.Component {
 
+    componentWillUnmount() {
+        this.props.onUnLoad();
+    }
+    
   render() {
     if (!this.props.currentUser || this.props.tab !== 'settings') {
       return null;

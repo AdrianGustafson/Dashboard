@@ -16,6 +16,7 @@ main section {
 
 .main-public {
   @extend %full-page;
+  width: 100%;
 }
 
 .main-private {
@@ -33,4 +34,8 @@ main section {
 
 main .fas {
   font-size:2.5em
+}
+
+.active_tab {
+    border-bottom: 3px green solid;
 }

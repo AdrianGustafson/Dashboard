@@ -51,7 +51,7 @@ html {
 }
 
 body {
-  color: $secondary;
+  color: $grey;
   background-color: $tertiary;
   margin: 0%;
   font-family: 100% $main-font;
@@ -83,7 +83,7 @@ a {
 
 i .fas {
   display: inline;
-
+  color: $secondary;
   .spinner-lg {
     align-items: center;
     font-size: 2rem;
@@ -107,15 +107,24 @@ hr {
   margin: 2rem 0;
 }
 .page {
-  color: $secondary;
+  /*color: $secondary;*/
   width: 100%;
   min-height: 800px;
   padding: 1rem;
 
-  a, Link {
-    color: $secondary!important;
+  a {
+    color: $grey !important;
     display: inline;
   }
+    
+    table {
+        color: black;
+        
+        a {
+            color: black !important;
+        }
+    }
+    
 }
 
 .tab-toggle {

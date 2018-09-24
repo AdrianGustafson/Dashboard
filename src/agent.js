@@ -32,16 +32,31 @@ const Auth = {
   register: (email, password) =>
     requests.post('/users/register', {'user': { email, password }}),
   saveStaff: user =>
-    requests.put('/staff', {user: user})
+    requests.put('/staff', { user: user })
 }
 
 const Business = {
+    all: () =>
+        requests.get('/companies'),
+    apps: () =>
+        requests.get('/company/apps'),
+    create: company =>
+        requests.post('/companies', { company: company }),
     current: () =>
         requests.get('/company'),
-} 
+    
+}
+    
+const Password = {
+    validate: (uidb64, token) =>
+        requests.get(`/password/reset/${uidb64}/${token}`),
+    submit: (uidb64, token, password1, password2) =>
+        requests.post(`/password/reset/${uidb64}/${token}`, { password1, password2 })
+}
 
 export default {
   Auth,
   Business,
+  Password,
   setToken: _token => { token = _token; }
 }

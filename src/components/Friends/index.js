@@ -16,7 +16,7 @@ class Friends extends React.Component {
     render() {
         const { currentUser } = this.props
         
-        if (currentUser.friends.length === 0) {
+        if (!currentUser.friends) {
             return (
                 <div className="page">
                     Du har inga vänner än...

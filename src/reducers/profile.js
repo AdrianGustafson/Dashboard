@@ -24,6 +24,9 @@ export default function common(state = initialState, action) {
         success: action.error ? false : true
       }
     }
+    case 'SETTINGS_PAGE_UNLOADED': {
+          return {}
+      }
     case 'ASYNC_START': {
       return {
         ...state,

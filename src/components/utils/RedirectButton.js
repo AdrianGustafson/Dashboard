@@ -2,14 +2,14 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 const RedirectButton = ({history, to, css, children}) => {
-  function onClick(e) {
-    e.preventDefault();
-    history.push(to)
+  const onClick = url => ev => {
+    ev.preventDefault();
+    history.push(url)
   }
   return (
     <button
       className={css}
-      onClick={onClick}>
+      onClick={onClick(to)}>
         {children}
       </button>
   )

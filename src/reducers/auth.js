@@ -7,6 +7,13 @@ export default (state = {}, action) => {
         inProgress: false,
         errors: action.error ? action.payload.errors : null
       };
+    case 'PASSWORD_RESET_LOADED': {
+        return {
+            ...state,
+            validLink: action.error ? false : action.payload.validLink
+        }  
+    }
+    case 'PASSWORD_RESET_UNLOADED':
     case 'LOGIN_PAGE_UNLOADED':
     case 'REGISTER_PAGE_UNLOADED':
       return {};

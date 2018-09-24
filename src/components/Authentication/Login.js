@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import agent from '../agent';
+import agent from '../../agent';
 
-import { ListErrors } from './utils/Forms';
+import { ListErrors } from '../utils/Forms';
 
 const mapStateToProps = state => ({
     email: state.auth.email,
@@ -19,6 +19,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: 'UPDATE_FIELD_AUTH', key: 'password', value }),
   onSubmit: (email, password) =>
     dispatch({ type: 'LOGIN', payload: agent.Auth.login(email, password) }),
+  onLoad: (payload, token) =>
+    dispatch({ type: 'LOGIN_PAGE_LOADED', payload, token }),
   onUnLoad: () =>
     dispatch({ type: 'LOGIN_PAGE_UNLOADED' })
 });
@@ -37,6 +39,18 @@ class Login extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (!this.props.currentUser) {
+        const token = window.localStorage.getItem('jwt');
+        
+        if (token) {
+            agent.setToken(token);
+        }
+        
+        this.props.onLoad( token ? agent.Auth.current(): null, token)
+    }  
+  }
+    
   componentWillUnMount() {
     this.props.onUnLoad();
   }
@@ -44,7 +58,6 @@ class Login extends React.Component {
   render() {
     const { email, password, currentUser } = this.props;
     const { from } = this.props.location.state || { from: {pathname: "/" }};
-    console.log(from);
 
     if (currentUser) {
       return <Redirect to={from} />;
