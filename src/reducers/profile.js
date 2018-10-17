@@ -1,5 +1,5 @@
 const initialState = {
-  tab: 'profile'
+  tab: null
 }
 
 export default function common(state = initialState, action) {
@@ -24,7 +24,7 @@ export default function common(state = initialState, action) {
         success: action.error ? false : true
       }
     }
-    case 'SETTINGS_PAGE_UNLOADED': {
+    case 'PROFILE_PAGE_UNLOADED': {
           return {}
       }
     case 'ASYNC_START': {

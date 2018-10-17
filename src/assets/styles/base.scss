@@ -45,109 +45,14 @@ $main-font: 'Roboto', sans-serif;
 $heading-font: 'Oswald', sans-serif;
 $brand-font: 'Titillium Web', sans-serif;
 
-html {
-  scroll-behavior: smooth;
-  box-sizing: border-box;
-}
+$small-breakpoint: 576px;
+$medium-breakpoint: 768px;
+$large-breakpoint: 1200px;
 
-body {
-  color: $grey;
-  background-color: $tertiary;
-  margin: 0%;
-  font-family: 100% $main-font;
-}
-
-h1, h2 {
-  font-family: $heading-font;
-  font-weight: 800;
-}
-
-h3, h4, h5 {
-  font-family: $main-font;
-  font-weight: bold;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  background-color: inherit;
-
-}
-
-a {
-  color: white;
-  text-decoration: none;
-  font-family: $main-font;
-  display: inline;
-}
-
-i .fas {
-  display: inline;
-  color: $secondary;
-  .spinner-lg {
-    align-items: center;
-    font-size: 2rem;
-  }
-}
-nav {
-  white-space: nowrap;
-}
-
-.app {
-  display: grid;
-  grid-template-columns: min-content 1fr;
-
-  div {
-    display: grid;
-    align-content: start;
-  }
-}
-
-hr {
-  margin: 2rem 0;
-}
-.page {
-  /*color: $secondary;*/
-  width: 100%;
-  min-height: 800px;
-  padding: 1rem;
-
-  a {
-    color: $grey !important;
-    display: inline;
-  }
-    
-    table {
-        color: black;
-        
-        a {
-            color: black !important;
-        }
-    }
-    
-}
-
-.tab-toggle {
-  margin-top: 10px;
-  padding-bottom: 10px;
-
-  ul {
-    height: 40px;
-    li {
-      margin-right: 10px;
-    }
-  }
-
-  a {
-    padding: 10px 10px;
-  }
-}
-
-.not-found {
-  grid-column: 2;
-  text-align: center;
-  min-height: 400px;
-  padding: 200px;
+%widget-shadow {
+  -webkit-box-shadow: 2px 2px 12px -10px rgba(0,0,0,0.6);
+  -moz-box-shadow: 2px 2px 12px -10px rgba(0,0,0,0.6);
+  box-shadow: 2px 2px 12px -10px rgba(0,0,0,0.6);
 }
 
 .dark {
@@ -170,15 +75,4 @@ hr {
 }
 .error-messages {
   @extend %danger;
-}
-
-.btn {
-  &-primary {
-    background-color: $primary !important;
-    border-color: $primary !important;
-  }
-  &-outline-primary {
-    color: $primary !important;
-    border-color: $primary !important;
-  }
 }

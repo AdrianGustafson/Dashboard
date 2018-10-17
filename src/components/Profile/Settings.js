@@ -17,7 +17,7 @@ import agent from '../../agent';
 class SettingsForm extends React.Component {
   constructor(props) {
     super(props);
-      
+
     this.state = {
       first_name: "",
       last_name: "",
@@ -147,39 +147,33 @@ const mapStateToProps = state => ({
   currentUser: state.common.currentUser,
   tab: state.profile.tab,
   errors: state.profile.errors,
-    success: state.profile.success
+  success: state.profile.success
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmitForm: user => 
-        dispatch({ type: 'PROFILE_SETTINGS_SAVED', payload: agent.Auth.saveStaff(user) }),
-    onUnLoad: () => 
-        dispatch({ type: 'SETTINGS_PAGE_UNLOADED' })
+    onSubmitForm: user =>
+        dispatch({ type: 'PROFILE_SETTINGS_SAVED', payload: agent.Auth.saveStaff(user) })
 })
 
 class Settings extends React.Component {
 
-    componentWillUnmount() {
-        this.props.onUnLoad();
-    }
-    
   render() {
-    if (!this.props.currentUser || this.props.tab !== 'settings') {
-      return null;
-    }
 
     return (
-      <div className="settings-form">
-        <h1>Personuppgifter</h1>
+      <div className="widget settings-form">
+        <div className="widget__header">
+            <h2>Personuppgifter</h2>
+          </div>
 
-        <ListErrors errors={this.props.errors} />
-        <Success success={this.props.success} />
-        
-        <SettingsForm
-          currentUser={this.props.currentUser}
-          onSubmitForm={this.props.onSubmitForm}
-          />
+          <div className="widget__content">
+            <ListErrors errors={this.props.errors} />
+            <Success success={this.props.success} message="Dina inställningar har sparats!"/>
 
+            <SettingsForm
+              currentUser={this.props.currentUser}
+              onSubmitForm={this.props.onSubmitForm}
+            />
+        </div>
       </div>
     )
   }

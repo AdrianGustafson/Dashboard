@@ -1,21 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-
-const mapStateToProps = state => ({
-    currentUser: state.common.currentUser,
-    company: state.company.company,
-})
 
 const FacilityPreview = props => {
     const { facility } = props;
     if (props.active) {
         return (
-            <tr>   
+            <tr>
                 <th scope="row"><button onClick={props.onToggleClick(facility.slug)}><i className="fas fa-times"></i></button></th>
                 <th colSpan="5">
                     <div>
-                        
+
                         <p> här är en div!</p>
                     </div>
                 </th>
@@ -34,24 +27,30 @@ const FacilityPreview = props => {
             </tr>
         )
     }
-    
+
 }
-class FacilityListPreview extends React.Component {
+class FacilityListPreviewWidget extends React.Component {
     constructor() {
         super();
         this.state = {
             activeCompany: 'cafe-visthuset'
         }
-        
+
     this.onToggleClick = slug => ev => {
         const nextSlug = slug === this.state.activeCompany ? '' : slug;
         this.setState({activeCompany: nextSlug})
     }
     }
-    
-     
+
     render() {
         return (
+          <div className="widget">
+            <div className="widget__header">
+              <h2>Anläggningar</h2>
+            </div>
+
+            <div className="widget__content">
+
             <div className="col-md-3 col-xs-12">
                 <table className="table">
                     <thead className="thead-light">
@@ -68,41 +67,21 @@ class FacilityListPreview extends React.Component {
                         {
                             this.props.facilities.map( (facility, index) => {
                                 return (
-                                <FacilityPreview 
-                                    facility={facility} 
-                                    key={facility.slug} 
-                                    active={this.state.activeCompany === facility.slug} 
+                                <FacilityPreview
+                                    facility={facility}
+                                    key={facility.slug}
+                                    active={this.state.activeCompany === facility.slug}
                                     onToggleClick={this.onToggleClick} />
                             )})
                         }
                     </tbody>
                 </table>
             </div>
+          </div>
+        </div>
+
         )
     }
 }
 
-class CompanyContainer extends React.Component {
- 
-    render() {
-        const { company } = this.props;
-        
-        if (!company) {
-            return <Redirect to="/companies/manage" />
-        }
-            
-        return (
-            <div className="page ">
-                <div className="company-container">
-                    <h1>{company.name}</h1>
-            
-                    <p>Här är företagsviewen. Här kan du se till exemepel dina anläggningar, dina anställda. Dina appar.</p>
-            
-                    <FacilityListPreview facilities={company.facilities} />
-                </div>
-            </div>
-        )
-    }
-}
-
-export default connect(mapStateToProps, ()=>({}))(CompanyContainer);
+export default FacilityListPreviewWidget;

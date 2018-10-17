@@ -1,11 +1,10 @@
 const initialState = {
   appName: "WeBooking",
-  showSidebar: true,
-  loggedIn: false,
+  showUserDropdown: false,
   token: null,
   appLoaded: false,
   isSuperuser: false,
-  apps: []
+  apps: null
 }
 
 export default function common(state=initialState, action) {
@@ -18,21 +17,14 @@ export default function common(state=initialState, action) {
         currentUser: action.payload ? action.payload.user : null
       }
     }
-    
     case 'LOGIN': {
       return {
         ...state,
         token: action.error ? null : action.payload.user.token,
-        currentUser: action.error ? null : action.payload.user,
-        loggedIn: true
+        currentUser: action.error ? null : action.payload.user
       }
     }
-    case 'SIDEBAR_LOADED': {
-        return {
-            ...state,
-            
-        }   
-    }
+
     case 'PROFILE_PAGE_LOADED':
     case 'LOGIN_PAGE_LOADED': {
         return {
@@ -40,26 +32,32 @@ export default function common(state=initialState, action) {
             currentUser: action.payload ? action.payload.user : null,
             token: action.payload ? action.payload.user.token : null
         }
-    } 
+    }
     case 'USER_DATA_LOADED': {
         return {
             ...state,
             currentUser: action.payload ? action.payload[0].user: null,
             apps: action.payload ? action.payload[1].apps : []
-        } 
+        }
     }
     case 'LOGOUT': {
       return {
         ...state,
         token: null,
         currentUser: null,
-        loggedIn: false
+        apps: null
       }
     }
-    case 'TOGGLE_SIDEBAR': {
+    case 'TOGGLE_USER_DROPDOWN': {
+        return {
+            ...state,
+            showUserDropdown: !state.showUserDropdown
+        }
+    }
+    case 'CLOSE_USER_DROPDOWN': {
       return {
         ...state,
-        showSidebar: action.toggle
+        showUserDropdown: false
       }
     }
     case 'PROFILE_SETTINGS_SAVED': {
@@ -68,10 +66,12 @@ export default function common(state=initialState, action) {
             currentUser: action.error ? state.currentUser : action.payload.user
         }
       }
-      case 'PROFILE_PAGE_UNLOADED': 
-      case 'SETTINGS_PAGE_UNLOADED': {
-          return { ...state }
+    case 'USER_APPS_LOADED': {
+      return {
+        ...state,
+        apps: action.error ? null : action.payload.apps
       }
+    }
     default:
       return state
   }

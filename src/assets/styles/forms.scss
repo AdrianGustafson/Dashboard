@@ -1,3 +1,5 @@
+@import 'base';
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -8,30 +10,82 @@ input[type=number]::-webkit-outer-spin-button {
 
 %centered-form {
     width: 40%;
-    margin-left: 30%;
-    
+    margin-left: auto;
+    margin-right: auto;
+
     button {
         margin-top: 20px;
         float: right;
     }
-    
+
     h1 {
         text-align: center;
         margin: 20px 0px;
     }
 }
 
-.settings-form {
-  @extend %centered-form;
- 
-  .success {
-        color: green;
-        text-align: center;
-      
-  }
+.success {
+  color: green;
+  text-align: center;
 }
-
+.list-error {
+  list-style-type: none;
+  text-align: left;
+}
 .company-create-form {
     @extend %centered-form;
-    
+
+}
+
+.centered-form {
+  @extend %centered-form;
+}
+
+
+.login {
+  text-align: center;
+
+  button {
+    margin-bottom: 5rem;
+  }
+
+  form, ul {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+  }
+
+}
+
+.form-factory {
+  &__header {
+    margin-bottom: 10px;
+    h3 {
+      display: inline-block;
+    }
+
+    button {
+      float: right;
+    }
+  }
+
+  legend {
+    font-size: 1.2rem;
+
+    .factory__remove-button {
+      float: right;
+      display: inline-block;
+
+    }
+  }
+}
+// MEDIUM SCREEEN CSS
+@media (max-width: $medium-breakpoint) {
+  .login {
+    form, ul {
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
 }

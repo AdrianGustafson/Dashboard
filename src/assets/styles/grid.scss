@@ -1,0 +1,57 @@
+@import 'base';
+
+/* RESPONSIVE FLEX GRID */
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+}
+.left {
+  justify-content: flex-start;
+}
+
+.centered {
+  justify-content: center;
+}
+
+.right {
+  justify-content: flex-end;
+}
+// Large
+@for $i from 1 through 12 {
+  .large-#{$i} {
+    flex: $i*100%/12;
+    max-width: $i*100%/12;
+    padding: 2%;
+  }
+}
+
+.hide-for-large {
+  display: none !important;
+}
+
+// Medium
+@media (max-width: $medium-breakpoint) {
+  @for $i from 1 through 12 {
+    .medium-#{$i} {
+      flex: $i*100%/12;
+      max-width: $i*100%/12;
+    }
+  }
+  .hide-for-medium {
+    display: none !important;
+  }
+}
+//Small
+@media (max-width: $small-breakpoint) {
+  @for $i from 1 through 12 {
+    .small-#{$i} {
+      flex: $i*100%/12;
+      max-width: $i*100%/12;
+    }
+  }
+
+  .hide-for-small {
+    display: none !important;
+  }
+}

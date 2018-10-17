@@ -3,16 +3,23 @@ import { Link } from 'react-router-dom';
 
 const TabList = props => {
   return (
-    <ul className="nav nav-tabs">
-      {props.children}
-    </ul>
+    <div className="flex-row">
+      <div className="large-12">
+        <ul className="tablist">
+          {props.children}
+        </ul>
+
+      </div>
+    </div>
   )
 }
 
-const Tab = props => {
+const Tab = ({ active, children, onClick}) => {
+  //
+  const styles = active ? "tablist-item tablist-item--active" : "tablist-item";
   return (
-    <li className="nav-item" {...props} >
-      <a className="nav-link" >{props.children}</a>
+    <li className={styles} onClick={onClick}>
+      <a className="tablist-link" >{children}</a>
     </li>
   )
 }

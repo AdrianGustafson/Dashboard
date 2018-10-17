@@ -1,24 +1,25 @@
 import React from 'react';
+
 import { connect } from 'react-redux';
 import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 
 import { Login, PasswordReset } from './Authentication';
 import Booking from './Booking';
-import Company from './Company';
-import CompanyContainer from './Company/CompanyContainer';
-import {Footer, Header, Sidebar } from './Navs';
+import Companies from './Companies';
+import Company from './Companies/Company';
+import {Footer, Header } from './Navs';
 import Friends from './Friends';
 import NotFound from './NotFound';
 import Home from './Home';
 import PrivateRoute from './utils/PrivateRoute';
 import Profile from './Profile';
-import Settings from './Profile/Settings';
 
 import agent from '../agent';
 
 const mapStateToProps = state => ({
   currentUser: state.common.currentUser,
-  appLoaded: state.common.appLoaded
+  appLoaded: state.common.appLoaded,
+  showUserDropdown: state.common.showUserDropdown
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -29,6 +30,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class App extends React.Component {
+
 
   componentWillMount() {
     const token = window.localStorage.getItem('jwt');
@@ -41,42 +43,49 @@ class App extends React.Component {
                                        ]) : null, token )
   }
 
-  shouldComponentUpdate(nextProps) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     const token = window.localStorage.getItem('jwt');
-    if (!nextProps.currentUser && token ) {
+    if (this.props.currentUser === null && token ) {
         agent.setToken(token);
         this.props.onLoadUser( token ? Promise.all([agent.Auth.current(), agent.Business.apps()]) : null, token)
-        return true;
     }
-    return true;
   }
-   
+
   render() {
     if (!this.props.appLoaded) {
       return (
         <div className="app">
-          <main className="main-public">
-            <i className="fas fa-spinner fa-spin spinner-lg"></i>
+          <main className="app">
+            <div className="page-container">
+              <div className="flex-row centered">
+
+                <div className="medium-12">
+                  <i className="fas fa-spinner fa-spin spinner-lg"></i>
+                </div>
+
+              </div>
+            </div>
           </main>
         </div>
       )
     }
     else {
         return (
-            <div className="app">
+            <div>
                 <Header />
-                <Sidebar />
+                <main className="app">
                 <Switch>
                     <Route path="/" exact component={Home} />
                     <PrivateRoute path="/booking" component={Booking} />
-                    <PrivateRoute path="/companies/manage/:slug" component={CompanyContainer} />
-                    <PrivateRoute path="/companies/:tab?" component={Company} />
+                    <PrivateRoute path="/companies/manage/:slug" component={Company} />
+                    <PrivateRoute path="/companies/:tab?" component={Companies} />
                     <PrivateRoute path="/friends" component={Friends} />
                     <PrivateRoute path="/profile/:tab?" component={Profile} />
                     <Route path="/login" component={Login} />
                     <Route path="/password/:type(reset|create)/:uidb64/:token" exact component={PasswordReset} />
                     <Route component={NotFound} />
                 </Switch>
+                </main>
                 <Footer />
             </div>
         )}

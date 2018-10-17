@@ -11,7 +11,7 @@ class ListErrors extends React.Component {
             Object.keys(errors).map(key => {
               return (
                 <li key={key}>
-                  {key}: {errors[key]}
+                  {errors[key]}
                 </li>
               );
             })
@@ -27,8 +27,8 @@ class ListErrors extends React.Component {
 const Success = props => {
     if (props.success) {
         return (
-            <p className="success">Dina inställningar har sparats!</p>
-        ) 
+            <p className="success">{props.message}</p>
+        )
     }
     return null;
 }
@@ -36,6 +36,7 @@ const Success = props => {
 const EmailInput = props => {
   return (
     <fieldset className="form-group">
+      <ListErrors errors={props.errors} />
       <input
         className="form-control"
         type="email"
@@ -54,6 +55,7 @@ EmailInput.propTypes = {
 const TextInput = props => {
   return (
     <fieldset className="form-group">
+      <ListErrors errors={props.errors} />
       <input
         className="form-control"
         type="text"
@@ -71,6 +73,7 @@ TextInput.propTypes = {
 const PhoneInput = props => {
   return (
     <fieldset className="form-group">
+      <ListErrors errors={props.errors} />
       <input
         className="form-control"
         type="tel"
@@ -82,13 +85,17 @@ const PhoneInput = props => {
 }
 
 PhoneInput.propTypes = {
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
   onChange: PropTypes.func.isRequired
 }
 
 const PasswordInput = props => {
   return (
     <fieldset className="form-group">
+      <ListErrors errors={props.errors} />
       <input
         className="form-control"
         type="password"
@@ -107,6 +114,7 @@ PasswordInput.propTypes = {
 const NumberInput = props => {
   return (
     <fieldset className="form-group">
+      <ListErrors errors={props.errors} />
       <input
         className="form-control"
         type="number"

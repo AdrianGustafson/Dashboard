@@ -27,16 +27,13 @@ class Home extends React.Component {
     const { currentUser } = this.props;
     if (currentUser){
       return (
-          <main id="main" className="main-private">
-            <StaffViewComponent currentUser={currentUser} />
             <SuperUserViewComponent currentUser={currentUser}/>
-          </main>
       )
     }
     else {
-        return <PublicComponent /> 
+        return <PublicComponent />
     }
   }
 }
-
+// <StaffViewComponent currentUser={currentUser} />
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

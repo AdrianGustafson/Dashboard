@@ -1,0 +1,29 @@
+@import 'base';
+
+.tablist {
+  @extend %widget-shadow;
+
+  background-color: $tertiary;
+  line-height: 3rem;
+  list-style-type: none;
+  flex: 1 1 100%;
+  flex-flow: row wrap;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 1rem !important;
+  font-size: 1.1rem;
+
+  &-item {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  &-item--active {
+    border-bottom: 2px solid $grey;
+  }
+  &-link {
+
+  }
+}

@@ -6,6 +6,7 @@ import agent from '../../agent';
 import { ListErrors } from '../utils/Forms';
 
 const mapStateToProps = state => ({
+    apps: state.common.apps,
     email: state.auth.email,
     password: state.auth.password,
     currentUser: state.common.currentUser,
@@ -21,6 +22,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: 'LOGIN', payload: agent.Auth.login(email, password) }),
   onLoad: (payload, token) =>
     dispatch({ type: 'LOGIN_PAGE_LOADED', payload, token }),
+  onLoadApps: (payload) =>
+    dispatch({ type: 'USER_APPS_LOADED', payload }),
   onUnLoad: () =>
     dispatch({ type: 'LOGIN_PAGE_UNLOADED' })
 });
@@ -41,16 +44,17 @@ class Login extends React.Component {
 
   componentDidMount() {
     if (!this.props.currentUser) {
+        console.log("Load data from componentDidMount");
         const token = window.localStorage.getItem('jwt');
-        
+
         if (token) {
             agent.setToken(token);
         }
-        
+
         this.props.onLoad( token ? agent.Auth.current(): null, token)
-    }  
+    }
   }
-    
+
   componentWillUnMount() {
     this.props.onUnLoad();
   }
@@ -60,46 +64,55 @@ class Login extends React.Component {
     const { from } = this.props.location.state || { from: {pathname: "/" }};
 
     if (currentUser) {
+      if (!this.props.apps) {
+        this.props.onLoadApps(currentUser.token ? agent.Business.apps(): null)
+      }
       return <Redirect to={from} />;
     }
 
     return (
-      <main className="login">
-          <h1 className="text-xs-center">Logga in</h1><br/>
+      <div className="page-container login">
+        <div className="flex-row centered">
+          <div className="medium-12 large-8">
+            <div className="widget">
+              <h1 className="text-center">Logga in</h1><br/>
 
-          <ListErrors errors={this.props.errors} />
+              <ListErrors errors={this.props.errors} />
 
-          <form onSubmit={this.submitForm(email, password)}>
-            <fieldset>
+              <form onSubmit={this.submitForm(email, password)}>
+                <fieldset>
 
-              <fieldset className="form-group">
-                <input
-                  className="form-control form-control-lg"
-                  type="email"
-                  placeholder="Epost"
-                  value={email}
-                  onChange={this.onChangeEmail} />
-              </fieldset>
+                  <fieldset className="form-group">
+                    <input
+                      className="form-control form-control-lg"
+                      type="email"
+                      placeholder="Epost"
+                      value={email}
+                      onChange={this.onChangeEmail} />
+                  </fieldset>
 
-              <fieldset className="form-group">
-                <input
-                  className="form-control form-control-lg"
-                  type="password"
-                  placeholder="Lösenord"
-                  value={password}
-                  onChange={this.onChangePassword} />
-              </fieldset>
+                  <fieldset className="form-group">
+                    <input
+                      className="form-control form-control-lg"
+                      type="password"
+                      placeholder="Lösenord"
+                      value={password}
+                      onChange={this.onChangePassword} />
+                  </fieldset>
 
-              <button
-                className="btn btn-lg btn-primary pull-xs-right"
-                type="submit"
-                disabled={this.props.inProgress}>
-                Logga in
-              </button>
+                  <button
+                    className="btn btn-lg btn-primary pull-xs-right"
+                    type="submit"
+                    disabled={this.props.inProgress}>
+                    Logga in
+                  </button>
 
-            </fieldset>
-          </form>
-      </main>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
