@@ -11,6 +11,7 @@ import '../assets/styles/grid.scss';
 import '../assets/styles/header.scss';
 import '../assets/styles/footer.scss';
 import '../assets/styles/forms.scss';
+import '../assets/styles/listPreview.scss';
 import '../assets/styles/main.scss';
 import '../assets/styles/profile.scss';
 import '../assets/styles/tabs.scss';

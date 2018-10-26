@@ -9,7 +9,7 @@ import agent from '../../agent';
 const mapStateToProps = state => ({
     currentUser: state.common.currentUser,
     companies: state.company.companies,
-    company: state.company.company
+    company: state.company.company,
 })
 
 const mapDispatchToProps = dispatch => ({

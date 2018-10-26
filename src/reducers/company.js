@@ -55,6 +55,14 @@ export default function company(state=initialState, action) {
             success: action.error ? false : true,
           }
         }
+        case 'FACILITY_CREATED': {
+          return {
+            ...state,
+            facility: action.error ? null : action.payload.facility,
+            facilityCreateErrors: action.error ? action.payload.errors : null,
+            success: action.error ? false : true
+          }
+        }
 
         // UNLOADS
         case 'COMPANY_CREATE_UNLOADED': {
@@ -66,7 +74,7 @@ export default function company(state=initialState, action) {
         case 'CURRENT_COMPANY_UNLOADED': {
           return {
             ...state,
-            currentComapany: null
+            currentCompany: null
           }
         }
         case 'COMPANIES_PAGE_UNLOADED':

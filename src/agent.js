@@ -48,6 +48,13 @@ const Business = {
         requests.get(`/companies/${slug}`)
 }
 
+const Facility = {
+  all: () =>
+    requests.get('/facilities'),
+  create: (company, facility) =>
+    requests.post('/facilities', { company: company , facility: facility })
+}
+
 const Password = {
     validate: (uidb64, token) =>
         requests.get(`/password/reset/${uidb64}/${token}`),
@@ -58,6 +65,7 @@ const Password = {
 export default {
   Auth,
   Business,
+  Facility,
   Password,
   setToken: _token => { token = _token; }
 }

@@ -124,23 +124,58 @@ main {
     color: black;
     border-bottom: .05em solid rgba(0,0,0,0.2);
     padding-bottom: 2%;
-    text-overflow: ellipsis;
-    overflow: hidden;
+
 
     h2 {
       font-size: 1.5rem;
       display: inline-block;
+      text-overflow: ellipsis;
     }
-
-    .action-button {
+    .action-button-dropdown {
       position: relative;
       float: right;
-      font-size: 1.25rem;
     }
+    .action-button {
+      font-size: 1.25rem;
+      position: relative;
+      float: right;
+    }
+    .action-button-menu {
+      display: block;
+      position: absolute;
+      border: 1px solid $grey;
+      right: 0;
+      top:95%;
+      background-color: $tertiary;
+      padding:4%;
+      width: 12rem;
+
+      button {
+        width: 100%;
+        text-align: right;
+      }
+      button:hover {
+        background-color: black;
+        color: $tertiary;
+      }
+    }
+
   }
 
   &__content {
     margin-top: 2%;
 
   }
+}
+
+.facility__edit {
+  position: relative;
+  float: right;
+  color: $warning;
+  font-size: 2rem;
+}
+
+// Helper descriptor for debugging
+.bordered{
+  border: 2px solid black;
 }

@@ -32,7 +32,7 @@ class Companies extends React.Component {
     }
 
     componentWillUnmount() {
-      this.props.onUnload();
+      //this.props.onUnload();
     }
 
     onChangeTabClick(e, tab) {

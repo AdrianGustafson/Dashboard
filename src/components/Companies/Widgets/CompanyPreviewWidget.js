@@ -1,5 +1,13 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
+
+import {
+  ListPreview,
+  ListItem,
+  ListItemHeader,
+  ListItemBody
+} from '../../utils/ListPreview';
 
 
 const CompanyListPreview = props => {
@@ -24,43 +32,103 @@ const CompanyListPreview = props => {
   else {
     return (
       <div className="widget__content">
-        <div className="flex-row right">
-            <div className="small-6 ">
-              <button className="btn btn-primary company-add-btn" onClick={() => this.onClickAddCompany()}>
-                  <i className="fas fa-plus"></i> Lägg till företag
-              </button>
-            </div>
-        </div>
-        <table className="table">
-            <thead className="thead-light">
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Organisationsnummer</th>
-                </tr>
-            </thead>
-            <tbody>
+        <ListPreview>
             {
                 props.companies.map( (company, index) => {
+                  var expanded = props.state.activeCompany === company.slug;
                     return (
-                        <tr key={company.slug}>
-                            <th scope="row">{index}</th>
-                            <td><Link to={`/companies/manage/${company.slug}`} onClick={ e => (this.onSelectCompanyClick(e, company)) }>{company.name}</Link></td>
-                            <td>{company.organisation_number}</td>
-                        </tr>
+                        <ListItem key={company.slug}>
+                          <ListItemHeader>
+                            <div className="descriptor">
+                              <Link to={`/companies/manage/${company.slug}`} onClick={ e => (this.onSelectCompanyClick(e, company)) }>{company.name}</Link>
+                            </div>
+                            <button
+                              onClick={() => (
+                                props.onToggleExpand({
+                                  activeCompany: expanded ? null : company.slug
+                                })
+                              )}>
+                                {expanded ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}
+                              </button>
+                              <button>
+                                <i className="fas fa-ellipsis-v"></i>
+                              </button>
+                          </ListItemHeader>
+
+
+                          <ListItemBody expanded={expanded}>
+                            <div ValidationError="column__spaced__rows">
+                              <div className="flex-row">
+                                <div className="medium-12 large-6">
+                                  <div>
+                                    <span className="descriptor">
+                                      Organisationsnummer:
+                                    </span>
+                                    <span>
+                                      {company.organisation_number}
+                                    </span>
+                                  </div>
+
+                                  <div>
+                                    <span className="descriptor">
+                                      <a href={`mailto:${company.email}`} className="action__link">
+                                        <i className="far fa-envelope"></i>
+                                      </a>
+                                    </span>
+                                    <span>{company.email}</span>
+                                  </div>
+
+                                  <div>
+                                    <span className="descriptor">
+                                      <a href={`tel:${company.phone_number}`} className="action__link">
+                                        <i className="fas fa-phone"></i>
+                                      </a>
+                                    </span>
+                                    <span>{company.phone_number}</span>
+                                  </div>
+
+                                </div>
+
+                                <div className="medium-12 large-6">
+                                  <span className="descriptor">
+                                    En lista på facilities eller liknande...
+                                  </span>
+                                </div>
+
+                              </div>
+
+                              <div className="flex-row">
+
+                              </div>
+                            </div>
+                          </ListItemBody>
+
+                        </ListItem>
                     )
                 })
             }
-            </tbody>
-        </table>
+        </ListPreview>
       </div>
     )
   }
 
 }
 
-
 class CompanyPreviewWidget extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      activeCompany: null,
+
+    }
+  }
+
+  onUpdateState(data) {
+    const state = this.state;
+    const nextState = Object.assign({}, state, data)
+    this.setState(nextState)
+  }
 
   render() {
     return (
@@ -71,10 +139,23 @@ class CompanyPreviewWidget extends React.Component {
           <button className="action-button"><i className="fas fa-ellipsis-v"></i></button>
         </div>
 
-        <CompanyListPreview {...this.props} />
+        <CompanyListPreview
+          state={this.state}
+          onToggleExpand={this.onUpdateState.bind(this)}
+          {...this.props} />
+
       </div>
     )
   }
+}
+
+CompanyPreviewWidget.propTypes = {
+  companies: PropTypes.array.isRequired,
+  currentUser: PropTypes.object
+}
+
+CompanyPreviewWidget.defaultProps = {
+  currentUser: null
 }
 
 export default CompanyPreviewWidget;

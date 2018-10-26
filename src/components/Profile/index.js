@@ -4,7 +4,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 
 import agent from '../../agent';
 import { Tab, TabList } from '../utils/Tabs';
-import Settings from './Settings';
+import UserSettingsWidget from './Widgets/UserSettingsWidget';
 
 const mapStateToProps = state => ({
   currentUser: state.common.currentUser,
@@ -54,7 +54,7 @@ const ProfileView = props => {
         </div>
 
         <div className="medium-12 large-4">
-          <Settings />
+          <UserSettingsWidget />
         </div>
       </div>
     )

@@ -6,7 +6,7 @@ class ListErrors extends React.Component {
     const { errors } = this.props;
     if (errors) {
       return (
-        <ul className="error-messages">
+        <ul className="list-errors">
           {
             Object.keys(errors).map(key => {
               return (
@@ -31,6 +31,27 @@ const Success = props => {
         )
     }
     return null;
+}
+
+const AreaInput = props => {
+  return (
+    <fieldset className="form-group">
+      <ListErrors errors={props.errors} />
+      <textarea
+        className="form-control"
+        rows={props.rows || "8"}
+        cols={props.cols || "50"}
+        type="textarea"
+        placeholder={props.placeholder}
+        value={props.value}
+        onChange={props.onChange} />
+    </fieldset>
+  )
+}
+
+AreaInput.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 const EmailInput = props => {
@@ -157,6 +178,7 @@ Form.propTypes = {
 }
 
 export {
+  AreaInput,
   EmailInput,
   Form,
   ListErrors,

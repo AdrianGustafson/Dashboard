@@ -1,6 +1,23 @@
 @import 'base';
 
 /* RESPONSIVE FLEX GRID */
+
+/* CONTAINERS */
+%column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column {
+  @extend %column;
+}
+
+.column__spaced__rows {
+  @extend %column;
+  height: 100%;
+  justify-content: space-between;
+}
+
 .flex-row {
   display: flex;
   flex-wrap: wrap;
@@ -17,6 +34,16 @@
 .right {
   justify-content: flex-end;
 }
+
+/* ITEMS */
+.start {
+  align-self: flex-start;
+}
+.end {
+  align-self: flex-end;
+}
+
+
 // Large
 @for $i from 1 through 12 {
   .large-#{$i} {

@@ -24,14 +24,24 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
+legend {
+  font-size: 1.2rem;
+  border-bottom: .05em solid rgba(0,0,0,0.2);
+  margin-bottom: 2%;
+}
+
 .success {
   color: green;
   text-align: center;
 }
-.list-error {
+.list-errors {
   list-style-type: none;
   text-align: left;
+  color: $danger;
+  padding-left: 1%;
+  margin-bottom: 5px;
 }
+
 .company-create-form {
     @extend %centered-form;
 
@@ -56,6 +66,8 @@ input[type=number]::-webkit-outer-spin-button {
   }
 
 }
+
+
 
 .form-factory {
   &__header {

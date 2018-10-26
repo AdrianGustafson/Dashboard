@@ -66,12 +66,12 @@ class UserDropdown extends React.Component {
 
   render() {
     return (
-        <li className="nav-item user-dropdown" >
+        <li className="nav-item user-dropdown"
+          onMouseOver={this.props.showUserDropdown}>
           <button
             id="user-dropdown-menu"
             className="nav-link"
-            role="button"
-            onClick={this.props.onToggleUserDropdown} >
+            role="button">
               {this.props.currentUser.first_name}{"  "}{this.props.showUserDropdown ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}
           </button>
           {this.props.showUserDropdown &&
@@ -108,22 +108,30 @@ const LoggedInView = props => {
     props.onToggleUserDropdown();
   }
 
+  function showUserDropdown() {
+    props.onToggleUserDropdown()
+  }
   if (props.currentUser) {
+    //onMouseLeave={props.onToggleUserDropdown}>
     return (
-      <ul className="navbar-nav mr-auto">
-        {
-          props.company &&
-          <li className="nav-item d-none d-md-inline">
-            <Link to="/" className="nav-link">{props.company}</Link>
-          </li>
-        }
-        <UserDropdown
-          onToggleUserDropdown={onClickToggleUserDropdown}
-          onLogout={onClickLogout}
-          onRedirect={onClickRedirect}
-          {...props}
-        />
-      </ul>
+      <div
+        onMouseOver={props.onToggleUserDropdown}>
+        <ul className="navbar-nav mr-auto">
+          {
+            props.company &&
+            <li className="nav-item d-none d-md-inline">
+              <Link to="/" className="nav-link">{props.company}</Link>
+            </li>
+          }
+          <UserDropdown
+            onMouseOver={showUserDropdown}
+            onToggleUserDropdown={onClickToggleUserDropdown}
+            onLogout={onClickLogout}
+            onRedirect={onClickRedirect}
+            {...props}
+          />
+        </ul>
+      </div>
     )
   }
   else {

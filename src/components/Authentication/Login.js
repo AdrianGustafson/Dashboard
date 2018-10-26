@@ -44,7 +44,6 @@ class Login extends React.Component {
 
   componentDidMount() {
     if (!this.props.currentUser) {
-        console.log("Load data from componentDidMount");
         const token = window.localStorage.getItem('jwt');
 
         if (token) {

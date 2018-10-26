@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import {
   CompanyInfoWidget,
-  FacilityListPreviewWidget
+  FacilityWidget,
 } from './Widgets';
 
 import agent from '../../agent';
@@ -12,20 +12,33 @@ import agent from '../../agent';
 const mapStateToProps = state => ({
     currentUser: state.common.currentUser,
     company: state.company.company,
-    errors: state.company.errors,
+    companyInfoErrors: state.company.compnayInfoErrors,
+    facilityCreateErrors: state.company.facilityCreateErrors
 })
 
 const mapDispatchToProps = dispatch  => ({
   onLoadCompany: payload =>
     dispatch({ type: 'COMPANY_DATA_LOADED', payload }),
+  onCreateFacility: payload =>
+    dispatch({ type: 'FACILITY_CREATED', payload }),
   onUnload: () =>
     dispatch({ type: 'COMPANY_PAGE_UNLOADED' })
 })
 
 
 class Company extends React.Component {
+    constructor() {
+      super();
 
-    componentDidMount() {
+      this.onClickCreateFacility = facility => ev => {
+
+        const company = this.props.company;
+        console.log(company, facility);
+        //this.props.onCreateFacility( agent.Facility.create(company, facility ));
+      }
+    }
+
+    componentWillMount() {
       if (!this.props.company) {
         const companySlug = this.props.match.params.slug;
 
@@ -89,12 +102,16 @@ class Company extends React.Component {
                 <div className="flex-row">
                   <div className="medium-12 large-8">
 
-                    <FacilityListPreviewWidget facilities={company.facilities} />
+                    <FacilityWidget
+                      company={company}
+                      errors={this.props.facilityCreateErrors}
+                      onCreateFacility={this.props.onCreateFacility}
+                      facilities={company.facilities} />
 
                   </div>
 
                   <div className="medium-12 large-4">
-                    <CompanyInfoWidget company={company} errors={this.props.errors} />
+                    <CompanyInfoWidget company={company} errors={this.props.companyInfoErrors} />
                   </div>
                 </div>
             </div>
