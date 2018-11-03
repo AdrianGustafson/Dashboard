@@ -11,16 +11,20 @@ const FacilityPreview = props => {
       return (
           <ListItemHeader>
             <div className="descriptor">{props.name}</div>
-            <button
-              onClick={() => (
-                props.onToggleExpand({
-                  activeFacility: props.expanded ? null : props.slug}
-                ))}>
-              {props.expanded ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}
-            </button>
-            <button>
-              <i className="fas fa-ellipsis-v"></i>
-            </button>
+              <div className="list-actions">
+
+                <button>
+                  <i className="fas fa-ellipsis-v"></i>
+                </button>
+
+                <button
+                  onClick={() => (
+                    props.onToggleExpand({
+                      activeFacility: props.expanded ? null : props.slug}
+                    ))}>
+                  {props.expanded ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}
+                </button>
+              </div>
           </ListItemHeader>
     )
 }
@@ -89,7 +93,7 @@ const FacilityView = props => {
             </div>
           </div>
         </ListItemBody>
-    
+
     </ListItem>
   )
 }

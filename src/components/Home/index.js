@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import PublicComponent from './PublicComponent';
-import StaffViewComponent from './StaffViewComponent';
-import SuperUserViewComponent from './SuperUserViewComponent';
+import PublicView from './PublicView';
+import StaffUserView from './StaffUserView';
 
 import agent from '../../agent';
 
@@ -18,22 +17,18 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
 
   render() {
     const { currentUser } = this.props;
     if (currentUser){
       return (
-            <SuperUserViewComponent currentUser={currentUser}/>
+            <StaffUserView currentUser={currentUser}/>
       )
     }
     else {
-        return <PublicComponent />
+        return <PublicView />
     }
   }
 }
-// <StaffViewComponent currentUser={currentUser} />
+
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

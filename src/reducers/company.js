@@ -79,7 +79,11 @@ export default function company(state=initialState, action) {
         }
         case 'COMPANIES_PAGE_UNLOADED':
         case 'COMPANY_PAGE_UNLOADED': {
-          return {}
+          return {
+            ...state,
+            companies: null,
+            companiesCount: null
+          }
         }
 
         default:

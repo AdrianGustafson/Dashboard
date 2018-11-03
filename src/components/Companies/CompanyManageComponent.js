@@ -31,12 +31,12 @@ class CompanyManageComponent extends React.Component {
 
     onClickSelectCompany( ev, company ) {
         ev.preventDefault();
-        this.props.history.push(`/companies/manage/${company.slug}`);
+        this.props.history.push(`/business/manage/${company.slug}`);
     }
 
     onClickAddCompany() {
         this.props.onChangeTab('create');
-        this.props.history.push("/companies/create");
+        this.props.history.push("/business/create");
     }
 
     render() {

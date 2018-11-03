@@ -151,6 +151,26 @@ NumberInput.propTypes = {
   onChange: PropTypes.func.isRequired
 }
 
+const SelectInput = props => {
+  return (
+    <fieldset className="form-group">
+      <label>{props.name}</label>
+      <select className="form-control" name={props.name}>
+        {
+          props.options.map( (option, index) => {
+            return (
+              <option key={index} value={option.slug}>{option.name}</option>
+            )
+          } )
+        }
+      </select>
+    </fieldset>
+  )
+}
+
+SelectInput.propTypes = {
+  options: PropTypes.array.isRequired
+}
 const SubmitButton = props => {
   return (
     <button
@@ -185,6 +205,7 @@ export {
   NumberInput,
   PasswordInput,
   PhoneInput,
+  SelectInput,
   SubmitButton,
   Success,
   TextInput

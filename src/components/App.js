@@ -77,8 +77,8 @@ class App extends React.Component {
                 <Switch>
                     <Route path="/" exact component={Home} />
                     <PrivateRoute path="/booking" component={Booking} />
-                    <PrivateRoute path="/companies/manage/:slug" component={Company} />
-                    <PrivateRoute path="/companies/:tab?" component={Companies} />
+                    <PrivateRoute path="/business/manage/:slug" component={Company} />
+                    <PrivateRoute path="/business/:tab?" component={Companies} />
                     <PrivateRoute path="/friends" component={Friends} />
                     <PrivateRoute path="/profile/:tab?" component={Profile} />
                     <Route path="/login" component={Login} />

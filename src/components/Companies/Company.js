@@ -5,6 +5,8 @@ import { Redirect } from 'react-router-dom';
 import {
   CompanyInfoWidget,
   FacilityWidget,
+  UserListPreviewWidget,
+  UserCreateWidget,
 } from './Widgets';
 
 import agent from '../../agent';
@@ -13,7 +15,11 @@ const mapStateToProps = state => ({
     currentUser: state.common.currentUser,
     company: state.company.company,
     companyInfoErrors: state.company.compnayInfoErrors,
-    facilityCreateErrors: state.company.facilityCreateErrors
+    facilityCreateErrors: state.company.facilityCreateErrors,
+    profiles: state.profile.profiles,
+    profilesCount: state.profile.profilesCount,
+    profilesLoadError: state.profile.profilesLoadError,
+    profilesPage: state.profile.profilesPage
 })
 
 const mapDispatchToProps = dispatch  => ({
@@ -21,8 +27,14 @@ const mapDispatchToProps = dispatch  => ({
     dispatch({ type: 'COMPANY_DATA_LOADED', payload }),
   onCreateFacility: payload =>
     dispatch({ type: 'FACILITY_CREATED', payload }),
+  onCreateStaff: payload =>
+    dispatch({ type: 'COMPANY_STAFF_CREATED', payload }),
   onUnload: () =>
-    dispatch({ type: 'COMPANY_PAGE_UNLOADED' })
+    dispatch({ type: 'COMPANY_PAGE_UNLOADED' }),
+  onFetchCompanyEmployees: payload =>
+    dispatch({ type: 'COMPANY_EMPLOYEES_LOADED', payload }),
+  onSetProfilePage: (payload, page) =>
+    dispatch({ type: 'SET_PROFILE_PAGE', payload, page })
 })
 
 
@@ -30,11 +42,15 @@ class Company extends React.Component {
     constructor() {
       super();
 
+      this.state = {
+        createStaff: false
+      }
+
       this.onClickCreateFacility = facility => ev => {
 
         const company = this.props.company;
-        console.log(company, facility);
-        //this.props.onCreateFacility( agent.Facility.create(company, facility ));
+
+        this.props.onCreateFacility( agent.Facility.create(company, facility ));
       }
     }
 
@@ -42,12 +58,33 @@ class Company extends React.Component {
       if (!this.props.company) {
         const companySlug = this.props.match.params.slug;
 
+        this.props.onFetchCompanyEmployees( agent.Profile.byCompany(companySlug, 0))
         this.props.onLoadCompany( companySlug ? agent.Business.retrieve(companySlug) : null );
+
       }
     }
 
     componentWillUnmount() {
       this.props.onUnload();
+    }
+
+    onSetPage(page) {
+      const companySlug = this.props.match.params.slug;
+      const promise = agent.Profile.byCompany(companySlug, page)
+      this.props.onSetProfilePage(page, promise)
+    }
+
+    onCreateStaff(staffList) {
+      const companySlug = this.props.match.params.slug;
+      console.log(companySlug);
+      console.log(staffList);
+      //const promise = agent.Auth.createStaff(companySlug, staffList)
+      //this.props.onCreateStaff(promise)
+    }
+
+    onToggleCreateStaff() {
+      const state = this.state;
+      this.setState({createStaff: !state.createStaff });
     }
 
     render() {
@@ -96,22 +133,52 @@ class Company extends React.Component {
             </div>
           )
         }
-
         return (
             <div className="page-container">
                 <div className="flex-row">
-                  <div className="medium-12 large-8">
 
-                    <FacilityWidget
-                      company={company}
-                      errors={this.props.facilityCreateErrors}
-                      onCreateFacility={this.props.onCreateFacility}
-                      facilities={company.facilities} />
+                    {
+                      !this.state.createStaff &&
+                      <div className="medium-12 large-8">
+                        <UserListPreviewWidget
+                          title="Anställda"
+                          onEditUser="Hello!"
+                          onDeleteUser="Hello!"
+                          onToggleCreateStaff={this.onToggleCreateStaff.bind(this)}
+                          onCreateStaff={this.onCreateStaff}
+                          onSetPage={this.onSetPage}
+                          currentPage={this.props.profilesPage}
+                          usersCount={this.props.profilesCount}
+                          users={this.props.profiles} />
 
-                  </div>
+                        <FacilityWidget
+                          company={company}
+                          errors={this.props.facilityCreateErrors}
+                          onCreateFacility={this.props.onCreateFacility}
+                          facilities={company.facilities} />
+                      </div>
+                    }
+
+                    {
+                      this.state.createStaff &&
+                      <div className="medium-12 large-8">
+                        <UserCreateWidget
+                          onToggleCreateStaff={this.onToggleCreateStaff.bind(this)}
+                          facilities={company.facilities}
+                          onSubmitForm={this.onCreateStaff.bind(this)}
+                        />
+                      </div>
+                    }
+
+
 
                   <div className="medium-12 large-4">
                     <CompanyInfoWidget company={company} errors={this.props.companyInfoErrors} />
+
+                    <UserListPreviewWidget
+                      title="Administratörer"
+                      usersCount={company.admins.length}
+                      users={company.admins} />
                   </div>
                 </div>
             </div>

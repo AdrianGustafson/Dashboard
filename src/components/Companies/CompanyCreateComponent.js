@@ -32,7 +32,7 @@ class CompanyCreateComponent extends React.Component {
             return null;
         }
         if (this.props.success) {
-          return <Redirect to={`/companies/manage/${this.props.company.slug}`} />
+          return <Redirect to={`/business/manage/${this.props.company.slug}`} />
         }
 
         return (

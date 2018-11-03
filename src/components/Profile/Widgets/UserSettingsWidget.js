@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 import {
     Form,
@@ -11,8 +10,6 @@ import {
     PasswordInput,
     SubmitButton,
     Success} from '../../utils/Forms';
-
-import agent from '../../../agent';
 
 class SettingsForm extends React.Component {
   constructor(props) {
@@ -226,38 +223,7 @@ const SettingsView = props => {
   )
 }
 
-
-const mapStateToProps = state => ({
-  currentUser: state.common.currentUser,
-  tab: state.profile.tab,
-  errors: state.profile.errors,
-  success: state.profile.success
-})
-
-const mapDispatchToProps = dispatch => ({
-    onSubmitForm: user =>
-        dispatch({ type: 'PROFILE_SETTINGS_SAVED', payload: agent.Auth.saveStaff(user) })
-})
-
-class Settings extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      edit: false
-    }
-  }
-
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-    
-  }
-  toggleEdit() {
-    const state = this.state;
-    this.setState({edit: !state.edit})
-  }
+class UserSettingsWidget extends React.Component {
 
   render() {
 
@@ -267,7 +233,7 @@ class Settings extends React.Component {
             <h2>Personuppgifter</h2>
             <button className="action-button"
               title="Uppdatera personuppgifter"
-              onClick={this.toggleEdit.bind(this)}
+              onClick={this.props.toggleEdit}
               style={{color: '#7D7D7C'}}>
               <i className="fa fa-edit"></i>
             </button>
@@ -276,18 +242,18 @@ class Settings extends React.Component {
           <div className="widget__content">
 
             {
-              this.state.edit &&
+              this.props.edit &&
               <SettingsForm
                 errors={this.props.errors}
                 success={this.props.success}
                 currentUser={this.props.currentUser}
                 onSubmitForm={this.props.onSubmitForm}
-                setSuccess={this.toggleEdit}
+                setSuccess={this.props.toggleEdit}
               />
             }
 
             {
-              !this.state.edit &&
+              !this.props.edit &&
               <SettingsView
                 currentUser={this.props.currentUser} />
             }
@@ -298,4 +264,4 @@ class Settings extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default UserSettingsWidget;

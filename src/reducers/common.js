@@ -25,7 +25,6 @@ export default function common(state=initialState, action) {
       }
     }
 
-    case 'PROFILE_PAGE_LOADED':
     case 'LOGIN_PAGE_LOADED': {
         return {
             ...state,
@@ -48,13 +47,13 @@ export default function common(state=initialState, action) {
         apps: null
       }
     }
-    case 'TOGGLE_USER_DROPDOWN': {
+    case 'SHOW_USER_DROPDOWN': {
         return {
             ...state,
-            showUserDropdown: !state.showUserDropdown
+            showUserDropdown: true
         }
     }
-    case 'CLOSE_USER_DROPDOWN': {
+    case 'HIDE_USER_DROPDOWN': {
       return {
         ...state,
         showUserDropdown: false

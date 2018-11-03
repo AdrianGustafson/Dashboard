@@ -40,8 +40,8 @@ class Companies extends React.Component {
         const { history } = this.props;
         this.props.onChangeTab(tab)
         tab === null ?
-            history.push("/companies") :
-            history.push(`/companies/${tab}`)
+            history.push("/business") :
+            history.push(`/business/${tab}`)
       }
 
 

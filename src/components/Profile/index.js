@@ -9,7 +9,9 @@ import UserSettingsWidget from './Widgets/UserSettingsWidget';
 const mapStateToProps = state => ({
   currentUser: state.common.currentUser,
   tab: state.profile.tab,
-  errors: state.profile.errors
+  profileSaveErrors: state.profile.profileErrors,
+  profileSaveSuccess: state.profile.profileSuccess,
+  profile: state.profile.profile
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -18,7 +20,9 @@ const mapDispatchToProps = dispatch => ({
   onChangeTab: tab =>
     dispatch({ type: 'CHANGE_TAB', tab }),
   onUnload: () =>
-    dispatch({ type: 'PROFILE_PAGE_UNLOADED' })
+    dispatch({ type: 'PROFILE_PAGE_UNLOADED' }),
+  onSubmitProfileForm: user =>
+    dispatch({ type: 'PROFILE_SETTINGS_SAVED', payload: agent.Auth.saveStaff(user) })
 })
 
 const SalaryView = props => {
@@ -54,7 +58,15 @@ const ProfileView = props => {
         </div>
 
         <div className="medium-12 large-4">
-          <UserSettingsWidget />
+          <UserSettingsWidget
+            edit={props.editProfile}
+            toggleEdit={props.toggleEditProfile}
+            currentUser={props.currentUser}
+            profile={props.profile}
+            errors={props.profileSaveErrors}
+            success={props.profileSaveSuccess}
+            onSubmitForm={props.onSubmitProfileForm}
+          />
         </div>
       </div>
     )
@@ -65,17 +77,32 @@ const ProfileView = props => {
 }
 
 class Profile extends React.Component {
-  componentWillMount() {
-      const token = window.localStorage.getItem('jwt');
-      if (token) {
-          agent.setToken(token)
-      }
-
-      this.props.onLoad( token ? agent.Auth.current() : null, token )
+  constructor() {
+    super();
+    this.state = {
+      editProfile: false
+    }
   }
 
+  componentWillMount() {
+      this.props.onLoad( agent.Profile.current()  )
+  }
+
+  componentDidUpdate(nextProps, nextState){
+
+    if (nextProps.profileSaveSuccess) {
+      if (nextProps.profileSuccess === true) {
+        this.setState({ editProfile: false })
+      }
+    }
+  }
   componentWillUnmount() {
     this.props.onUnload();
+  }
+
+  toggleEditProfile() {
+    const state = this.state;
+    this.setState({editProfile: !state.editProfile})
   }
 
   onChangeTabClick(e, tab) {
@@ -110,7 +137,12 @@ class Profile extends React.Component {
       <div className="page-container">
         {this.renderTabs(match, currentUser.first_name)}
 
-        <ProfileView tab={tab} />
+        <ProfileView
+          tab={tab}
+          editProfile={this.state.editProfile}
+          toggleEditProfile={this.toggleEditProfile.bind(this)}
+          {...this.props}/>
+
         <SalaryView tab={tab} />
 
       </div>

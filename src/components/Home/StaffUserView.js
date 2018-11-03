@@ -11,7 +11,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch({ type: 'SUPERUSER_PAGE_LOADED', payload, token })
 })
 
-class SuperUserViewComponent extends React.Component {
+class StaffUserView extends React.Component {
 
     render() {
 
@@ -49,4 +49,4 @@ class SuperUserViewComponent extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SuperUserViewComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(StaffUserView);

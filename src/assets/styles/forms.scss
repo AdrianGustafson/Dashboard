@@ -85,10 +85,14 @@ legend {
     font-size: 1.2rem;
 
     .factory__remove-button {
+      position: relative;
       float: right;
       display: inline-block;
-
     }
+  }
+  .factory__add-button {
+    position: relative;
+    float: right;
   }
 }
 // MEDIUM SCREEEN CSS

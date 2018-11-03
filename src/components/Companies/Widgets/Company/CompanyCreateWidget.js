@@ -9,7 +9,7 @@ import {
     NumberInput,
     PhoneInput,
     ListErrors,
-    SubmitButton } from '../../utils/Forms';
+    SubmitButton } from '../../../utils/Forms';
 
 
 const AdminFields = props => {
@@ -73,7 +73,7 @@ class AdminFieldsFactory extends React.Component {
         </div>
 
         {
-          this.props.admins.map((admin, index)=> {
+          this.props.admins.map((admin, index) => {
             return <AdminFields
               key={index}
               id={index+1}

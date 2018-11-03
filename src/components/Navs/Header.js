@@ -17,8 +17,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: 'LOGOUT' }),
   onToggleUserDropdown: () =>
     dispatch({ type: 'TOGGLE_USER_DROPDOWN' }),
-  closeUserDropdown: () =>
-      dispatch({type: 'CLOSE_USER_DROPDOWN' })
+  onHideUserDropdown: () =>
+    dispatch({ type: 'HIDE_USER_DROPDOWN' }),
+  onShowUserDropdown: () =>
+    dispatch({ type: 'SHOW_USER_DROPDOWN'})
+
 })
 
 const AppList = props => {
@@ -28,8 +31,7 @@ const AppList = props => {
 
   return (
       <ul className="navigation__menu hide-for-medium">
-        <li><Link to="/profile" className="navigation__menu-item-wrapper"><ion-icon name="person"></ion-icon> Min sida</Link></li>
-        <li><Link to="/friends" className="navigation__menu-item-wrapper"><i className="fas fa-user-friends"></i> Vänner</Link></li>
+        <li> <a href="/profile"><i className="fas fa-user"></i> Min sida</a></li>
         {props.apps.map((app, key) => (
             <li key={key}>
                 <Link to={app.url} className="navigation__menu-item-wrapper">
@@ -42,32 +44,12 @@ const AppList = props => {
 }
 
 class UserDropdown extends React.Component {
-  constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  componentDidMount() {
-    document.addEventListener('click', this.handleClick)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.handleClick)
-  }
-
-  handleClick(event)  {
-    // TODO: Fix so that whan a user clicks outside the box it closes...
-    if ($('user-dropdown-menu').is(event.target)) {
-      if (this.props.showUserDropdown) {
-        //this.setState({showDropdown: false})
-      }
-    }
-  }
 
   render() {
     return (
         <li className="nav-item user-dropdown"
-          onMouseOver={this.props.showUserDropdown}>
+          onMouseEnter={this.props.onMouseEnter}
+          onMouseLeave={this.props.onMouseLeave}>
           <button
             id="user-dropdown-menu"
             className="nav-link"
@@ -75,7 +57,7 @@ class UserDropdown extends React.Component {
               {this.props.currentUser.first_name}{"  "}{this.props.showUserDropdown ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}
           </button>
           {this.props.showUserDropdown &&
-          <div className="user-dropdown-menu" id="user-dropdown" >
+          <div className="user-dropdown-menu" id="user-dropdown">
             <Link className="dropdown-item"
               to='/settings'
               onClick={this.props.onRedirect}>
@@ -100,22 +82,21 @@ const LoggedInView = props => {
     props.history.push('/')
   }
 
-  function onClickToggleUserDropdown(show) {
-    props.onToggleUserDropdown();
-  }
-
   function onClickRedirect() {
     props.onToggleUserDropdown();
   }
 
   function showUserDropdown() {
-    props.onToggleUserDropdown()
+    props.onShowUserDropdown()
+  }
+
+  function hideUserDropDown() {
+    props.onHideUserDropdown()
   }
   if (props.currentUser) {
     //onMouseLeave={props.onToggleUserDropdown}>
     return (
-      <div
-        onMouseOver={props.onToggleUserDropdown}>
+      <div>
         <ul className="navbar-nav mr-auto">
           {
             props.company &&
@@ -124,8 +105,8 @@ const LoggedInView = props => {
             </li>
           }
           <UserDropdown
-            onMouseOver={showUserDropdown}
-            onToggleUserDropdown={onClickToggleUserDropdown}
+            onMouseEnter={showUserDropdown}
+            onMouseLeave={hideUserDropDown}
             onLogout={onClickLogout}
             onRedirect={onClickRedirect}
             {...props}

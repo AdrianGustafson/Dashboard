@@ -1,8 +1,9 @@
 var webpack = require('webpack');
+var BundleTracker = require('webpack-bundle-tracker');
 var HTMLWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 
-var BUILD_DIR = path.resolve(__dirname, 'build')
+var BUILD_DIR = path.resolve(__dirname, 'assets')
 var APP_DIR = path.join(__dirname, 'src');
 
 var config = {
@@ -13,6 +14,7 @@ var config = {
       template: 'assets/index.html'
     }),
     new webpack.HotModuleReplacementPlugin()
+    //new BundleTracker({path: __dirname, filename: './assets/webpack-stats.dev.json'})
   ],
   output: {
     path: BUILD_DIR,

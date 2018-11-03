@@ -7,7 +7,7 @@ import {
   ListItem,
   ListItemHeader,
   ListItemBody
-} from '../../utils/ListPreview';
+} from '../../../utils/ListPreview';
 
 
 const CompanyListPreview = props => {
@@ -40,19 +40,21 @@ const CompanyListPreview = props => {
                         <ListItem key={company.slug}>
                           <ListItemHeader>
                             <div className="descriptor">
-                              <Link to={`/companies/manage/${company.slug}`} onClick={ e => (this.onSelectCompanyClick(e, company)) }>{company.name}</Link>
+                              <Link to={`/business/manage/${company.slug}`} onClick={ e => (this.onSelectCompanyClick(e, company)) }>{company.name}</Link>
                             </div>
-                            <button
-                              onClick={() => (
-                                props.onToggleExpand({
-                                  activeCompany: expanded ? null : company.slug
-                                })
-                              )}>
-                                {expanded ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}
-                              </button>
-                              <button>
-                                <i className="fas fa-ellipsis-v"></i>
-                              </button>
+                            <div className="list-actions">
+                              <button
+                                onClick={() => (
+                                  props.onToggleExpand({
+                                    activeCompany: expanded ? null : company.slug
+                                  })
+                                )}>
+                                  {expanded ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}
+                                </button>
+                                <button>
+                                  <i className="fas fa-ellipsis-v"></i>
+                                </button>
+                              </div>
                           </ListItemHeader>
 
 
