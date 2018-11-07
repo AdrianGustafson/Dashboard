@@ -36,10 +36,19 @@ export default function common(state = initialState, action) {
     case 'COMPANY_EMPLOYEES_LOADED': {
       return {
         ...state,
-        profiles: action.error ? null : action.payload.profiles,
-        profilesCount: action.error ? null : action.payload.profilesCount,
+
         profilesLoadError: action.error ? action.payload.errors : null,
         profilesPage: 0
+      }
+    }
+    case 'COMPANY_DATA_LOADED': {
+      return {
+        ...state,
+        admins: action.error ? []: action.payload[1].profiles ,
+        adminsCount: action.error ? 0 : action.payload[1].profilesCount,
+        profiles: action.error ? null : action.payload[2].profiles,
+        profilesCount: action.error ? null : action.payload[2].profilesCount,
+        
       }
     }
     case 'PROFILE_PAGE_UNLOADED': {

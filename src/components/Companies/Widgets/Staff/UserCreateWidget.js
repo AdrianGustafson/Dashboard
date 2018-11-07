@@ -82,7 +82,6 @@ class UserCreateFormFactory extends React.Component {
     }
 
     this.onRemoveUser = id => ev => {
-      console.log(id);
       var from = id
       var to = id
       var users = this.state.users;
@@ -149,6 +148,7 @@ class UserCreateFormFactory extends React.Component {
 class UserCreateWidget extends React.Component {
 
   render() {
+    console.log(this.props);
     return (
       <div className="widget">
         <div className="widget__header">

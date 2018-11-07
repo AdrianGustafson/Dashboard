@@ -93,7 +93,7 @@ class FacilityWidget extends React.Component {
             <FacilityCreate
               errors={this.props.errors}
               company={this.props.company}
-              onSubmit={this.props.onCreateFacility}
+              onSubmit={this.props.onSubmitForm}
             />
         }
       </div>

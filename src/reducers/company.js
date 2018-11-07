@@ -29,8 +29,8 @@ export default function company(state=initialState, action) {
         case 'COMPANY_DATA_LOADED': {
           return {
             ...state,
-            company: action.error ? null : action.payload.company,
-            errors: action.error ? action.payload.errors : null
+            company: action.error ? null : action.payload[0].company,
+            errors: action.error ? action.payload[0].errors : null
           }
         }
 

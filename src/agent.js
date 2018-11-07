@@ -46,7 +46,7 @@ const Business = {
     apps: () =>
         requests.get('/company/apps'),
     create: company =>
-        requests.post('/companies', { company: company }),
+        requests.post('/companies', { company: company}),
     current: () =>
         requests.get('/company'),
     retrieve: slug =>
@@ -72,6 +72,8 @@ const Profile = {
     requests.get('/profile'),
   byCompany: (slug, page )=>
     requests.get(`/profiles?company=${slug}&${limit(30, page)}`),
+  byCompanyAdmins: (slug, page) =>
+    requests.get(`/profiles?company=${slug}&role=admin&${limit(30, page)}`),
   byFacility: (slug, page )=>
     requests.get(`/profiles?facility=${slug}&${limit(30, page)}`),
 }

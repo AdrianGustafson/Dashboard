@@ -127,8 +127,7 @@ class CompanyCreateForm extends React.Component {
       this.onSubmitFormClick = ev => {
           ev.preventDefault();
           const company = Object.assign({}, this.state);
-
-          this.props.onSubmitForm(company)
+          this.props.onSubmitForm(company);
       }
 
       this.onAddAdmin = ev => {

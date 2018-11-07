@@ -12,9 +12,11 @@ import {
 import agent from '../../agent';
 
 const mapStateToProps = state => ({
+    admins: state.profile.admins,
+    adminsCount: state.profile.adminsCount,
     currentUser: state.common.currentUser,
     company: state.company.company,
-    companyInfoErrors: state.company.compnayInfoErrors,
+    companyInfoErrors: state.company.companyInfoErrors,
     facilityCreateErrors: state.company.facilityCreateErrors,
     profiles: state.profile.profiles,
     profilesCount: state.profile.profilesCount,
@@ -57,15 +59,20 @@ class Company extends React.Component {
     componentWillMount() {
       if (!this.props.company) {
         const companySlug = this.props.match.params.slug;
-
-        this.props.onFetchCompanyEmployees( agent.Profile.byCompany(companySlug, 0))
-        this.props.onLoadCompany( companySlug ? agent.Business.retrieve(companySlug) : null );
+        const page = 0
+        //this.props.onFetchCompanyEmployees( )
+        this.props.onLoadCompany( companySlug ? Promise.all([
+            agent.Business.retrieve(companySlug),
+            agent.Profile.byCompanyAdmins(companySlug, page),
+            agent.Profile.byCompany(companySlug, page)])
+            : null
+        )
 
       }
     }
 
     componentWillUnmount() {
-      this.props.onUnload();
+      //this.props.onUnload();
     }
 
     onSetPage(page) {
@@ -78,8 +85,8 @@ class Company extends React.Component {
       const companySlug = this.props.match.params.slug;
       console.log(companySlug);
       console.log(staffList);
-      //const promise = agent.Auth.createStaff(companySlug, staffList)
-      //this.props.onCreateStaff(promise)
+      const promise = agent.Auth.createStaff(companySlug, staffList)
+      this.props.onCreateStaff(promise)
     }
 
     onToggleCreateStaff() {
@@ -177,8 +184,8 @@ class Company extends React.Component {
 
                     <UserListPreviewWidget
                       title="Administratörer"
-                      usersCount={company.admins.length}
-                      users={company.admins} />
+                      usersCount={this.props.adminsCount}
+                      users={this.props.admins} />
                   </div>
                 </div>
             </div>

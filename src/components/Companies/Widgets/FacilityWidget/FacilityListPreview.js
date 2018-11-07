@@ -13,17 +13,24 @@ const FacilityPreview = props => {
             <div className="descriptor">{props.name}</div>
               <div className="list-actions">
 
-                <button>
-                  <i className="fas fa-ellipsis-v"></i>
-                </button>
+                {
+                  false &&
+                  <button>
+                    <i className="fas fa-ellipsis-v"></i>
+                  </button>
+                }
 
-                <button
-                  onClick={() => (
-                    props.onToggleExpand({
-                      activeFacility: props.expanded ? null : props.slug}
-                    ))}>
-                  {props.expanded ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}
-                </button>
+                {
+                  props.count > 1 &&
+                  <button
+                    onClick={() => (
+                      props.onToggleExpand({
+                        activeFacility: props.expanded ? null : props.slug}
+                      ))}>
+                    {props.expanded ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}
+                  </button>
+                }
+
               </div>
           </ListItemHeader>
     )
@@ -37,6 +44,7 @@ const FacilityView = props => {
         expanded={props.expanded}
         slug={facility.slug}
         name={facility.name}
+        count={props.count}
         onToggleExpand={props.onToggleExpand}/>
 
         <ListItemBody expanded={props.expanded}>
@@ -127,13 +135,14 @@ const FacilityListPreview = props => {
     return (
       <div className="widget__content">
         <div className="flex-row">
-
-          <FacilityView
-            facility={props.facilities[0]}
-            expanded="true"
-            onToggleExpand={props.onUpdateState}
-          />
-
+          <div className="large-12">
+            <FacilityView
+              facility={props.facilities[0]}
+              expanded="true"
+              count="1"
+              onToggleExpand={props.onUpdateState}
+            />
+          </div>
         </div>
       </div>
     )
@@ -148,6 +157,7 @@ const FacilityListPreview = props => {
                     <FacilityView
                         facility={facility}
                         key={facility.slug}
+                        count={props.facilities.length}
                         expanded={props.state.activeFacility === facility.slug}
                         onToggleExpand={props.onUpdateState} />
                 )})
