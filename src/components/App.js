@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 
-import { Login, PasswordReset } from './Authentication';
+import { Login, PasswordReset, PasswordResetRequest } from './Authentication';
 import Booking from './Booking';
 import Companies from './Companies';
 import Company from './Companies/Company';
@@ -13,6 +13,8 @@ import NotFound from './NotFound';
 import Home from './Home';
 import PrivateRoute from './utils/PrivateRoute';
 import Profile from './Profile';
+import Websites from './Websites';
+import DashboardSpinner from './utils/DashboardSpinner';
 
 import agent from '../agent';
 
@@ -33,7 +35,7 @@ class App extends React.Component {
 
 
   componentWillMount() {
-    const token = window.localStorage.getItem('jwt');
+    const token = window.sessionStorage.getItem('jwt');
     if (token) {
       agent.setToken(token)
     }
@@ -44,7 +46,7 @@ class App extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const token = window.localStorage.getItem('jwt');
+    const token = window.sessionStorage.getItem('jwt');
     if (this.props.currentUser === null && token ) {
         agent.setToken(token);
         this.props.onLoadUser( token ? Promise.all([agent.Auth.current(), agent.Business.apps()]) : null, token)
@@ -60,7 +62,7 @@ class App extends React.Component {
               <div className="flex-row centered">
 
                 <div className="medium-12">
-                  <i className="fas fa-spinner fa-spin spinner-lg"></i>
+                  <DashboardSpinner />
                 </div>
 
               </div>
@@ -79,10 +81,12 @@ class App extends React.Component {
                     <PrivateRoute path="/booking" component={Booking} />
                     <PrivateRoute path="/business/manage/:slug" component={Company} />
                     <PrivateRoute path="/business/:tab?" component={Companies} />
+                    <PrivateRoute path="/cms/:tab?" component={Websites} />
                     <PrivateRoute path="/friends" component={Friends} />
                     <PrivateRoute path="/profile/:tab?" component={Profile} />
                     <Route path="/login" component={Login} />
                     <Route path="/password/:type(reset|create)/:uidb64/:token" exact component={PasswordReset} />
+                    <Route path="/password/reset" component={PasswordResetRequest} />
                     <Route component={NotFound} />
                 </Switch>
                 </main>

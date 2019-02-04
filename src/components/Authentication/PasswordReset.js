@@ -95,6 +95,7 @@ class PasswordReset extends React.Component {
       const { token, uidb64 } = this.props.match.params;
       this.props.onSubmitForm(agent.Password.submit(data, uidb64, token), uidb64, token);
     }
+
     render() {
         if (this.props.success) {
           return <Redirect to="/login" />;

@@ -8,6 +8,13 @@
   .list-item {
     border-bottom: 1px solid rgba(0,0,0,0.2);
 
+    h3 {
+      margin-top: .8rem;
+      padding-bottom: .4rem;
+      font-size: 1.3rem;
+      color: black;
+    }
+
     &__expanded {
       display: block;
       border: 1px solid rgba(0,0,0,0.2);

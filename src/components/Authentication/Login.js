@@ -44,7 +44,7 @@ class Login extends React.Component {
 
   componentDidMount() {
     if (!this.props.currentUser) {
-        const token = window.localStorage.getItem('jwt');
+        const token = window.sessionStorage.getItem('jwt');
 
         if (token) {
             agent.setToken(token);
@@ -108,6 +108,9 @@ class Login extends React.Component {
 
                 </fieldset>
               </form>
+              <div>
+                <Link to='/password/reset' >Glömt lösenordet?</Link>
+              </div>
             </div>
           </div>
         </div>

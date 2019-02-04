@@ -83,8 +83,6 @@ class Company extends React.Component {
 
     onCreateStaff(staffList) {
       const companySlug = this.props.match.params.slug;
-      console.log(companySlug);
-      console.log(staffList);
       const promise = agent.Auth.createStaff(companySlug, staffList)
       this.props.onCreateStaff(promise)
     }

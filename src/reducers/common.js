@@ -3,7 +3,6 @@ const initialState = {
   showUserDropdown: false,
   token: null,
   appLoaded: false,
-  isSuperuser: false,
   apps: null
 }
 

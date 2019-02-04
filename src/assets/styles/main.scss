@@ -179,3 +179,21 @@ main {
 .bordered{
   border: 2px solid black;
 }
+
+.keyword-default {
+  color: $tertiary;
+  font-size: .8rem;
+  padding-top: 1px;
+  padding-bottom: .1px;
+  white-space: nowrap;
+  margin-right: 3px;
+  margin-bottom: .2rem;
+  display: inline-block;
+  background-color: $primary;
+}
+
+.keyword-pill {
+  padding-right: .6em;
+  padding-left: .6em;
+  border-radius: 10rem;
+}

@@ -7,6 +7,13 @@ export default (state = {}, action) => {
         inProgress: false,
         errors: action.error ? action.payload.errors : null
       };
+    case 'PASSWORD_RESET_REQUESTED': {
+      return {
+        ...state,
+        success: !action.error,
+        errors: action.error ? action.payload.errors : null
+      }
+    }
     case 'PASSWORD_RESET_LOADED': {
         return {
             ...state,
@@ -24,6 +31,7 @@ export default (state = {}, action) => {
     case 'PASSWORD_RESET_UNLOADED':
     case 'LOGIN_PAGE_UNLOADED':
     case 'REGISTER_PAGE_UNLOADED':
+    case 'PASSWORD_RESET_PAGE_UNLOADED':
       return {};
     case 'ASYNC_START':
       if (action.subtype === 'LOGIN' || action.subtype === 'RGISTER') {

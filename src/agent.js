@@ -63,6 +63,8 @@ const Facility = {
 const Password = {
     validate: (uidb64, token) =>
         requests.get(`/password/reset/${uidb64}/${token}`),
+    request: (email) =>
+        requests.post(`/password/reset`, { email }),
     submit: ( data, uidb64, token) =>
         requests.post(`/password/reset/${uidb64}/${token}`, data )
 }
@@ -78,11 +80,25 @@ const Profile = {
     requests.get(`/profiles?facility=${slug}&${limit(30, page)}`),
 }
 
+const Site = {
+  all: (companySlug) =>
+    requests.get(`/cms/sites/${companySlug}`),
+  create: (companySlug, data) =>
+    requests.post(`/cms/sites/${companySlug}`, {site: data}),
+  routes: (siteId) =>
+    requests.get(`/cms/site/${siteId}/routes`),
+  languages: () =>
+    requests.get('/cms/languages'),
+  language: (locale) =>
+    requests.get(`/cms/languages/${locale}`)
+}
+
 export default {
   Auth,
   Business,
   Facility,
   Password,
   Profile,
+  Site,
   setToken: _token => { token = _token; }
 }

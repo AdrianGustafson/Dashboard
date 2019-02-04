@@ -3,18 +3,19 @@ var BundleTracker = require('webpack-bundle-tracker');
 var HTMLWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 
-var BUILD_DIR = path.resolve(__dirname, 'assets')
+var BUILD_DIR = path.resolve(__dirname, 'assets', 'webpack_bundles')
 var APP_DIR = path.join(__dirname, 'src');
 
 var config = {
+  context: __dirname,
   entry: APP_DIR,
   devtool: 'inline-source-map',
   plugins: [
     new HTMLWebpackPlugin({
       template: 'assets/index.html'
     }),
-    new webpack.HotModuleReplacementPlugin()
-    //new BundleTracker({path: __dirname, filename: './assets/webpack-stats.dev.json'})
+    new webpack.HotModuleReplacementPlugin(),
+    new BundleTracker({filename: './webpack-stats.dev.json'})
   ],
   output: {
     path: BUILD_DIR,

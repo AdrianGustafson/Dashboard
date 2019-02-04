@@ -82,7 +82,9 @@ const TextInput = props => {
         type="text"
         placeholder={props.placeholder}
         value={props.value}
-        onChange={props.onChange} />
+        onChange={props.onChange}
+        onKeyUp={props.onKeyUp}
+       />
     </fieldset>
   )
 }

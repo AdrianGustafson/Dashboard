@@ -59,7 +59,7 @@ const CompanyListPreview = props => {
 
 
                           <ListItemBody expanded={expanded}>
-                            <div ValidationError="column__spaced__rows">
+                            <div className="column__spaced__rows">
                               <div className="flex-row">
                                 <div className="medium-12 large-6">
                                   <div>
