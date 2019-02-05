@@ -15,6 +15,15 @@ import {
   PageEditor
 } from './Widgets';
 
+
+const NestedPageListItem = ({ page }) => {
+  return (
+    <div className="list-item__nested">
+      <a>{page.language}</a>
+    </div>
+  )
+}
+
 const SiteActionsWidget = (props) => {
 
   return (
@@ -30,7 +39,7 @@ const SiteActionsWidget = (props) => {
         <ListPreview>
           <ListItem>
             <ListItemHeader>
-              <a onClick={props.onSelectPage({name: "settings"})}>
+              <a onClick={props.onSelectRoute({name: "settings"})}>
                 Sidinställningar
               </a>
             </ListItemHeader>
@@ -41,17 +50,23 @@ const SiteActionsWidget = (props) => {
           </ListItem>
           {
             (props.routes || []).map((route, index) => {
-              const expanded = props.page ?
-                        route.name === props.page.name :
+              const expanded = props.activeRoute ?
+                        route.name === props.activeRoute.name :
                         false;
               return (
                 <ListItem key={index}>
                   <ListItemHeader>
-                    <a onClick={props.onSelectPage(route)}>{route.name}</a>
+                    <a onClick={props.onSelectRoute(route)}>{route.name}</a>
                   </ListItemHeader>
 
                   <ListItemBody expanded={expanded}>
-                    <p>En expanderad version</p>
+                    {
+                      route.pages.map(page => {
+                        return (
+                          <NestedPageListItem key={page.id} page={page} />
+                        )
+                      })
+                    }
                   </ListItemBody>
                 </ListItem>
               )
@@ -66,15 +81,14 @@ const SiteActionsWidget = (props) => {
 const mapStateToProps = state => ({
   routes: state.sites.routes,
   activeSite: state.sites.activeSite,
-  page: state.sites.page,
-  pageName: state.sites.pageName
+  activeRoute: state.sites.activeRoute,
 })
 
 const mapDispatchToProps = dispatch => ({
-  onLoadPages: payload =>
+  onLoadRoutes: payload =>
     dispatch({ type: 'SITE_ROUTES_LOADED', payload }),
-  onSelectPage: page =>
-    dispatch({ type: 'PAGE_SELECTED', page }),
+  onSelectRoute: route =>
+    dispatch({ type: 'ROUTE_SELECTED', route }),
   onUnload: () =>
     dispatch({ type: 'ACTIVE_SITE_UNLOADED'})
 })
@@ -83,17 +97,22 @@ class SiteSettings extends React.Component {
   constructor() {
     super();
 
-    this.onSelectPageClick = page => ev => {
+    this.onSelectRouteClick = route => ev => {
       ev.preventDefault();
 
-      this.props.onSelectPage(page);
+      this.props.onSelectRoute(route);
     }
   }
 
   componentDidMount() {
-    this.props.onLoadPages(agent.Site.routes(this.props.activeSite.id) );
+    this.props.onLoadRoutes(agent.Site.routes(this.props.activeSite.id) );
   }
 
+  componentDidUpdate() {
+    if (this.props.tab !== this.props.activeSite.slug) {
+      this.props.onUnload()
+    }
+  }
   componentWillUnmount() {
     this.props.onUnload()
   }
@@ -108,21 +127,21 @@ class SiteSettings extends React.Component {
       <div className="flex-row">
         <div className="medium-12 large-8">
           {
-            this.props.pageName === 'settings' &&
+            !this.props.activeRoute &&
               <SiteSettingsWidget site={this.props.activeSite} />
           }
 
           {
-            this.props.pageName !== 'settings' &&
-              <PageEditor page={this.props.page} />
+            this.props.activeRoute &&
+              <PageEditor />
           }
 
         </div>
 
         <div className="medium-12 large-4">
           <SiteActionsWidget
-            page={this.props.page}
-            onSelectPage={this.onSelectPageClick}
+            activeRoute={this.props.activeRoute}
+            onSelectRoute={this.onSelectRouteClick}
             routes={this.props.routes}
            />
         </div>

@@ -40,7 +40,7 @@ class SiteCreate extends React.Component {
       return null
     }
     if (this.props.success) {
-        return <Redirect to={`/cms/${this.props.activeSite.slug}`} />
+        return <Redirect to='/cms'/>
     }
 
     return (

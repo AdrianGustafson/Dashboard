@@ -1,7 +1,17 @@
 const initialState = {
   activeSite: null,
   tab: null,
-  pageName: 'settings'
+  routeName: 'settings'
+}
+
+function updateRoute(routes, newRoute) {
+  for (var i=0; i<routes.length; i++) {
+    if (routes[i].id === newRoute.id) {
+      routes[i] = newRoute
+    }
+  }
+
+  return routes
 }
 
 export default function sites(state=initialState, action) {
@@ -52,11 +62,25 @@ export default function sites(state=initialState, action) {
         tab: state.activeSite.slug
       }
     }
-    case 'PAGE_SELECTED': {
+    case 'ROUTE_SELECTED': {
       return {
         ...state,
-        pageName: action.page.name,
-        page: action.page
+        activeRoute: action.route
+      }
+    }
+    case 'ROUTE_UPDATED': {
+      return {
+        ...state,
+        activeRoute: action.route
+      }
+    }
+    case 'ROUTE_UPDATE_SAVED': {
+      return {
+        ...state,
+        activeRoute: action.error ? state.activeRoute : action.payload.route,
+        routes: action.error ?
+                    state.routes :
+                    updateRoute(state.routes, action.payload.route)
       }
     }
     case 'ACTIVE_SITE_UNLOADED': {

@@ -173,6 +173,22 @@ const SelectInput = props => {
 SelectInput.propTypes = {
   options: PropTypes.array.isRequired
 }
+
+const CheckboxInput = props => {
+  return (
+    <fieldset className="form-group">
+
+      <input
+        type="checkbox"
+        value={props.value}
+        onChange={props.onChange} />
+      <span>{" "}{props.name}</span>
+
+    </fieldset>
+  )
+}
+
+
 const SubmitButton = props => {
   return (
     <button
@@ -201,6 +217,7 @@ Form.propTypes = {
 
 export {
   AreaInput,
+  CheckboxInput,
   EmailInput,
   Form,
   ListErrors,

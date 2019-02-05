@@ -87,6 +87,8 @@ const Site = {
     requests.post(`/cms/sites/${companySlug}`, {site: data}),
   routes: (siteId) =>
     requests.get(`/cms/site/${siteId}/routes`),
+  updateRoute: (siteId, data) =>
+    requests.put(`/cms/site/${siteId}/routes/${data.id}`, data ),
   languages: () =>
     requests.get('/cms/languages'),
   language: (locale) =>
