@@ -25,6 +25,18 @@
       }
     }
 
+    &__nested__expanded {
+      display: block;
+      border-bottom: 1px solid rgba(0,0,0,0.2);
+      border-top: 1px solid rgba(0,0,0,0.2);
+      padding-left: 5%;
+
+      a:before {
+        content: "- ";
+      }
+    }
+
+
     .descriptor {
       color: black;
       font-weight: bolder;
@@ -57,16 +69,18 @@
       padding-top: 0;
     }
 
-    &__preview:hover {
+    &__preview:hover, &__nested:hover {
       background-color: #F1F1F1;
     }
+
+    .active {
+      background-color: $quarternary;
+    }
+
     .time-info {
       font-size: .7rem;
       margin-bottom: 0;
       line-height: 20px;
     }
   }
-
-
-
 }

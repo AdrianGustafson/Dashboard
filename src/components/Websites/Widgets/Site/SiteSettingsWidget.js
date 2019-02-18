@@ -39,6 +39,24 @@ const SiteSettingsWidget = ({ site }) => {
 
         </ListPreview>
       </div>
+
+      <div className="widget__content">
+        <div className="widget__content__header">
+          <h3>Språk</h3>
+        </div>
+
+        <ListPreview>
+          {
+            (site.languages || []).map(language => {
+              return (
+                <ListItem key={language.locale}>
+                  <span>{language.language}</span>
+                </ListItem>
+              )
+            })
+          }
+        </ListPreview>
+      </div>
     </div>
   )
 }

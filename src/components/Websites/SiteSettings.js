@@ -7,7 +7,7 @@ import {
   ListPreview,
   ListItem,
   ListItemHeader,
-  ListItemBody
+  ListItemBody,
  } from '../utils/ListPreview'
 
 import {
@@ -15,17 +15,27 @@ import {
   PageEditor
 } from './Widgets';
 
+const NestedPageListItemBody = props => {
+  if (!props.expanded) {
+    return null;
+  }
 
-const NestedPageListItem = ({ page }) => {
   return (
-    <div className="list-item__nested">
-      <a>{page.language}</a>
+    <div className="list-item__nested__expanded">
+      {props.children}
+    </div>
+  )
+}
+
+const NestedPageListItem = ({ page, onSelectPage, active }) => {
+  return (
+    <div className={active ? "list-item__nested active" : "list-item__nested"}>
+      <a onClick={onSelectPage(page)}>{page.language}</a>
     </div>
   )
 }
 
 const SiteActionsWidget = (props) => {
-
   return (
     <div className="widget">
       <div className="widget__header">
@@ -39,7 +49,7 @@ const SiteActionsWidget = (props) => {
         <ListPreview>
           <ListItem>
             <ListItemHeader>
-              <a onClick={props.onSelectRoute({name: "settings"})}>
+              <a onClick={props.onSelectRoute(null)}>
                 Sidinställningar
               </a>
             </ListItemHeader>
@@ -59,15 +69,23 @@ const SiteActionsWidget = (props) => {
                     <a onClick={props.onSelectRoute(route)}>{route.name}</a>
                   </ListItemHeader>
 
-                  <ListItemBody expanded={expanded}>
+                  <NestedPageListItemBody expanded={expanded}>
                     {
                       route.pages.map(page => {
                         return (
-                          <NestedPageListItem key={page.id} page={page} />
+                          <NestedPageListItem
+                            key={page.id}
+                            page={page}
+                            onSelectPage={props.onSelectPage}
+                            active={ props.activePage ?
+                                          props.activePage.id === page.id :
+                                          false
+                                    }
+                           />
                         )
                       })
                     }
-                  </ListItemBody>
+                  </NestedPageListItemBody>
                 </ListItem>
               )
             })
@@ -82,6 +100,7 @@ const mapStateToProps = state => ({
   routes: state.sites.routes,
   activeSite: state.sites.activeSite,
   activeRoute: state.sites.activeRoute,
+  activePage: state.sites.activePage
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -89,6 +108,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: 'SITE_ROUTES_LOADED', payload }),
   onSelectRoute: route =>
     dispatch({ type: 'ROUTE_SELECTED', route }),
+  onSelectPage: payload =>
+    dispatch({ type: 'ACTIVE_PAGE_SELECTED', payload }),
   onUnload: () =>
     dispatch({ type: 'ACTIVE_SITE_UNLOADED'})
 })
@@ -101,6 +122,14 @@ class SiteSettings extends React.Component {
       ev.preventDefault();
 
       this.props.onSelectRoute(route);
+      this.props.onSelectPage(null);
+    }
+
+    this.onSelectPageClick = page => ev => {
+
+      const siteId = this.props.activeSite.id;
+      const promise = page ? agent.Site.getPage( siteId, page.id) : null;
+      this.props.onSelectPage( promise )
     }
   }
 
@@ -113,10 +142,6 @@ class SiteSettings extends React.Component {
       this.props.onUnload()
     }
   }
-  componentWillUnmount() {
-    this.props.onUnload()
-  }
-
 
   render() {
     if (!this.props.activeSite || this.props.activeSite.slug !== this.props.tab ) {
@@ -132,7 +157,7 @@ class SiteSettings extends React.Component {
           }
 
           {
-            this.props.activeRoute &&
+            (this.props.activeRoute) &&
               <PageEditor />
           }
 
@@ -141,10 +166,13 @@ class SiteSettings extends React.Component {
         <div className="medium-12 large-4">
           <SiteActionsWidget
             activeRoute={this.props.activeRoute}
+            activePage={this.props.activePage}
             onSelectRoute={this.onSelectRouteClick}
+            onSelectPage={this.onSelectPageClick}
             routes={this.props.routes}
            />
         </div>
+
       </div>
     )
   }

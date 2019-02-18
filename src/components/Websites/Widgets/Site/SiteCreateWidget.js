@@ -1,5 +1,7 @@
 import React from 'react';
 
+import KeywordList from '../../utils/KeywordList';
+
 import {
   TextInput,
   SubmitButton
@@ -123,7 +125,7 @@ class SiteCreateForm extends React.Component {
       }
     }
 
-    this.removeKeywordHandler = keyword => () => {
+    this.onRemoveKeyword = keyword => () => {
       const state = this.state;
       const keywords = state.keywords.filter(
         kw => kw !== keyword
@@ -174,20 +176,10 @@ class SiteCreateForm extends React.Component {
               onChange={this.onUpdateField("keyword")}
               onKeyUp={this.watchForEnter} />
 
-            <div className="keyword-list">
-              {
-                this.state.keywords.map(keyword => {
-                  return (
-                    <span className="keyword-default keyword-pill"
-                      key={keyword}>
-                      <i className="fas fa-times"
-                        onClick={this.removeKeywordHandler(keyword)}></i>
-                        {keyword}
-                    </span>
-                  )
-                })
-              }
-            </div>
+            <KeywordList
+              keywords={this.state.keywords}
+              onRemoveKeywordHandler={this.onRemoveKeyword} />
+
           </fieldset>
 
           <button

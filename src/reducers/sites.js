@@ -14,6 +14,7 @@ function updateRoute(routes, newRoute) {
   return routes
 }
 
+
 export default function sites(state=initialState, action) {
   switch (action.type) {
     case 'SITES_PAGE_LOADED': {
@@ -94,6 +95,25 @@ export default function sites(state=initialState, action) {
       return {
         ...state,
         sites: null
+      }
+    }
+    case 'ACTIVE_PAGE_SELECTED': {
+      return {
+        ...state,
+        inProgress: null,
+        activePage: action.payload ? action.payload.page : null
+      }
+    }
+    case 'PAGE_UPDATE_SAVED': {
+      return {
+        ...state,
+        activePage: action.error ? state.activePage : action.payload.page,
+        errors: action.error ? action.payload.errors : null
+      }
+    }
+    case 'ASYNC_START': {
+      if (action.subtype === 'ACTIVE_PAGE_SELECTED') {
+        return { ...state, inProgress: true }
       }
     }
     default:

@@ -89,6 +89,10 @@ const Site = {
     requests.get(`/cms/site/${siteId}/routes`),
   updateRoute: (siteId, data) =>
     requests.put(`/cms/site/${siteId}/routes/${data.id}`, data ),
+  getPage: (siteId, pageId) =>
+    requests.get(`/cms/site/${siteId}/pages/${pageId}`),
+  updatePage: (siteId, data) =>
+    requests.put(`/cms/site/${siteId}/pages/${data.id}`, data),
   languages: () =>
     requests.get('/cms/languages'),
   language: (locale) =>
